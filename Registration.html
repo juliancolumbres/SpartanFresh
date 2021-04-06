@@ -1,13 +1,19 @@
 <html>
+    <link rel="stylesheet" href="styles.css">
     <head><title>Registration</title></head>
+    
     <body>
-        <form action="AccountCreation.php" method="post">  
-            <input type="text" name="first_name">  
-            <input type="password" name="password_encrypted">  
-            <input type="text" name="last_name">  
-            <input type="text" name="email">  
-            <input type="text" name="phone">  
-            <input type="submit">
-        </form>     
+        <h3 style ="text-align:center; padding-top:50px; font-size: 45; font-family:Verdana, Geneva, Tahoma, sans-serif;"> Sit back, we'll take it from here.</h3>
+        
+        <form action="AccountCreation.php" method="post" class = "input" style="margin: 50 auto;"> 
+        <input type="text" name="first_name" placeholder="First name" style =" height:30; width: 200;" class ="form">         
+        <input type="text" name="last_name" placeholder="Last name" style="margin-top: 5; height:30; width: 200;"class ="form">   
+        <input type="password" name="password_encrypted" placeholder="Password" style="margin-top: 5;  height:30; width: 200;"class ="form">  
+        <input type="text" name="email" placeholder= "Email" style="margin-top: 5;  height:30; width: 200;"class ="form">  
+        <input type="tel" name="phone" placeholder="Phone number" style="margin-top: 5;  height:30; width: 200;"class ="form">  
+        <br>
+        <input type="submit" value ="Sign up" style="margin-top: 20;  border-radius: 20px; height:30; width: 150;"class ="button">
+        </form>  
+        <!-- <h3>Already have an account? Login here:</h3> -->
     </body> 
 </html>
