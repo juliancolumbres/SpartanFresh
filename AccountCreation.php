@@ -2,18 +2,21 @@
     <head><title>Submission</title></head>
     <body>
         <?php  
-            $name = $_POST["name"];
-            $phone_num = $_POST["phone_num"];
-            $conn = mysqli_connect("sql3.freesqldatabase.com", "sql3402886", "gn4yJmWUfg")
+            $first_name = "ROCKY";
+            $last_name = $_POST["last_name"];
+            $password_encrypted = password_hash($_POST["password_encrypted"],PASSWORD_DEFAULT);
+            $phone = $_POST["phone"];
+            $email = $_POST["email"];
+            $conn = mysqli_connect("sql3.freesqldatabase.com", "sql3402886", "gn4yJmWUfg","sql3402886");
             if (!$conn) {  
                 die("Connection failed: " . mysqli_connect_error());
             }
-            $sql = "INSERT INTO `Grocery`(`name`, `phone_num`) VALUES ('$name','$phone_num')"
+            $sql = "INSERT INTO customer (email, first_name, last_name, password_encrypted, phone) VALUES ('$email','$first_name','$last_name','$password_encrypted','$phone')";
             $results = mysqli_query($conn, $sql);
             if ($results)
-                echo "The user has been added.";
+                echo "Great! You're registered.";
             else{
-                echo"NO!"
+                echo"Uh-oh, something went wrong on our end.";
                 echo mysqli_error($conn);
                 mysqli_close($conn); 
             }
