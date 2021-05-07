@@ -49,18 +49,14 @@ else {
 
 function getSubtotal($pdo) {
     $user_id = $_SESSION['user_id'];
-    // Fetch cart id
-    $stmt = $pdo->prepare("SELECT cart_id FROM shopping_cart WHERE FK_customer_id = '$user_id'");
-    $stmt->execute();
-    $cart_id = $stmt->fetchColumn();
 
     // Fetch items in cart using the cart id
-    $stmt = $pdo->prepare("SELECT * FROM item_in_cart WHERE FK_cart_id = '$cart_id'");
+    $stmt = $pdo->prepare("SELECT * FROM item_in_cart WHERE FK_customer_id = '$user_id'");
     $stmt->execute();
     $items_in_cart = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Fetch product information that are in cart
-    $stmt = $pdo->prepare("SELECT product.* FROM item_in_cart, product WHERE product.product_id = item_in_cart.FK_product_id AND item_in_cart.FK_cart_id = '$cart_id'");
+    $stmt = $pdo->prepare("SELECT product.* FROM item_in_cart, product WHERE product.product_id = item_in_cart.FK_product_id AND item_in_cart.FK_customer_id = '$user_id'");
     $stmt->execute();
     $product_info = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -82,13 +78,8 @@ function getSubtotal($pdo) {
 function getCartItemCount($pdo) {
     $user_id = $_SESSION['user_id'];
 
-    // Fetch cart id
-    $stmt = $pdo->prepare("SELECT cart_id FROM shopping_cart WHERE FK_customer_id = '$user_id'");
-    $stmt->execute();
-    $cart_id = $stmt->fetchColumn();
-
     // Fetch items in cart using the cart id
-    $stmt = $pdo->prepare("SELECT * FROM item_in_cart WHERE FK_cart_id = '$cart_id'");
+    $stmt = $pdo->prepare("SELECT * FROM item_in_cart WHERE FK_customer_id = '$user_id'");
     $stmt->execute();
     $items_in_cart = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
