@@ -32,9 +32,6 @@ for($row = 0; $row < count($products) / 3; $row++) {
           </form>
         </div>
         <div class="panel-footer text-center">
-          <span class="product-title">Kiwi Organic, 1 Each</span>
-          <span class="unit-price">$1.39/lb</span>
-          <span class="item-price">$5.3</span>
             Price: $<?php echo $price?> &nbsp <br> 
             Weight: <?php echo $weight?> lbs &nbsp <br> 
             Stock: <?php echo $stock?> <br>

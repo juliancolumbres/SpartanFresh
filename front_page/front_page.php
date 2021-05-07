@@ -2,6 +2,9 @@
 if(!isset($_SESSION)) {
     session_start();
 }
+
+
+session_reset();
 ?>
 
 <!DOCTYPE html>

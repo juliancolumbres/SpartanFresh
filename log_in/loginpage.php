@@ -1,10 +1,12 @@
 <?php
-session_start();
-
+if(!isset($_SESSION))
+{
+  session_start();
+}
 // Check if the user is already logged in, if yes then redirect him to welcome page
 if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true){
-    //header("location: catagories.php");
-    echo "already login";
+    header("location: all_category_view.php");
+    //echo "already login";
     exit;
 }
 
@@ -22,10 +24,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty(trim($_POST["email"]))){
         $email_err = "Please enter email.";
     } else{
+        $email = trim($_POST["email"]);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $email_err = "Invalid email format";
         }
-        $email = trim($_POST["email"]);
     }
 
     // Check if password is empty
@@ -66,8 +68,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["logged_in"] = true;
                             $_SESSION["user_id"] = $user_id;
                             //$_SESSION["email"] = $email;
-                            echo "login successful";
-                            //header("location:index.php");
+                            //echo "login successful";
+                            //header("all_category_view.php");
+                            header("location: all_category_view.php");
                         } else{
                             // Password is not valid, display a generic error message
                             $login_err = "Invalid email or password.";
@@ -127,7 +130,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Login">
             </div>
-            <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
+            <p>Don't have an account? <a href="../registration/Registration.html">Sign up now</a>.</p>
         </form>
     </div>
 </body>

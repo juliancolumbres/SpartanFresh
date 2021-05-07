@@ -27,6 +27,10 @@
     }
   </style>
 </head>
+
+  <?php 
+    include '../../component/head_nav/head_nav.php';
+  ?>
 <body>
 
 <div class="jumbotron">

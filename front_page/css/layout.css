@@ -57,7 +57,7 @@ html {
     font-size: 25px;
 }
 
-.featued-info > a > button {
+.featued-info > button {
     padding: 5px 10px;
     color: rgb(59, 59, 59);
     background-color: rgba(248, 245, 242, 0.849);
@@ -70,7 +70,7 @@ html {
     transition: 0.6s ease;
 }
 
-.featued-info > a > button:hover {
+.featued-info > button:hover {
     color: rgb(230, 230, 230);
     background-color: rgb(92, 92, 92, .7);
 }

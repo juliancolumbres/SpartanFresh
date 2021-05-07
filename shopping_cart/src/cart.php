@@ -5,8 +5,6 @@ if(!isset($_SESSION)) {
 include_once '/xampp/htdocs/component/db/db_config.php';
 $pdo = pdo_connect_mysql();
 
-$_SESSION['user_id'] = 51;
-
 $user_id = $_SESSION['user_id'];
 
 // Fetch items in cart using the cart id
@@ -71,8 +69,8 @@ else {
     </head>
 
     <?php 
-include '../../component/head_nav/head_nav.php';
-?>
+    include '../../component/head_nav/head_nav.php';
+    ?>
 
 
     <body>

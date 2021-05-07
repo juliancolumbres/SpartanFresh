@@ -1,6 +1,7 @@
 <?php 
 session_start();
-include 'config.php';
+include_once 'config.php';
+
 
 // Get all products in product database
 $stmt = $pdo->prepare("SELECT * FROM product");

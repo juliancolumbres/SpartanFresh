@@ -82,15 +82,18 @@
               <?php    
             }
             echo "</div>";
-            if ($_POST['setPayment'])
-            {
-              $default_payment = $_POST['setPayment'];
-              $sql = "UPDATE user SET FK_payment_id = '$default_payment' WHERE user_id='$customerId'";
-              $results = mysqli_query($conn, $sql);
-            }
+            
+              if ($_POST['setPayment'])
+              {
+                $default_payment = $_POST['setPayment'];
+                $sql = "UPDATE user SET FK_payment_id = '$default_payment' WHERE user_id='$customerId'";
+                $results = mysqli_query($conn, $sql);
+              }
 
-            $sql = "SELECT address_id, street, city, state, zip_code FROM customer_address WHERE FK_customer_id='$customerId'";
-            $results = mysqli_query($conn, $sql);
+              $sql = "SELECT address_id, street, city, state, zip_code FROM customer_address WHERE FK_customer_id='$customerId'";
+              $results = mysqli_query($conn, $sql);
+            
+            
             ?>
             <div class="address">
               <h3>Shipping Address
@@ -104,7 +107,7 @@
               $street = $row['street'];
               $city = $row['city'];
               $state = $row['state'];
-              $zip_code = $row['zip_code'];
+              $zipCode = $row['zip_code'];
               $address = $street. ", ". $city. ", ". $state. ", ". $zipCode;
               ?>
               <form method="post">
@@ -116,11 +119,13 @@
               <?php
             }
             echo "</div>";
-            if ($_POST['setAddress']) {
-              $default_address = $_POST['setAddress'];
-              $sql = "UPDATE user SET FK_address_id = '$default_address' WHERE user_id='$customerId'";
-              $results = mysqli_query($conn, $sql);
+            
+              if ($_POST['setAddress']) {
+                $default_address = $_POST['setAddress'];
+                $sql = "UPDATE user SET FK_address_id = '$default_address' WHERE user_id='$customerId'";
+                $results = mysqli_query($conn, $sql);
               }
+            
         ?>
       </div>
     </body>

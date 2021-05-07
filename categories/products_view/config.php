@@ -1,18 +1,6 @@
 <?php 
 
 // Connect to database function
-function pdo_connect_mysql() {
-    $host = "sql3.freesqldatabase.com:3306";
-    $username = "sql3402886";
-    $password = "gn4yJmWUfg";
-    $db_name = "sql3402886";
-    try {
-        return new PDO('mysql:host='.$host.';dbname='.$db_name, $username, $password);
-    }
-    catch (PDOException $exception) {
-        exit('Failed to connect to database!');
-   }
-}
 
 // Get first name, given the user id
 function get_first_name($user_id) {
@@ -37,7 +25,7 @@ function get_cart_quantity($user_id)
 
 // Set up required variables
 
-$_SESSION['user_id'] = 51;
+include_once '/xampp/htdocs/component/db/db_config.php';
 
 $pdo = pdo_connect_mysql();
 $user_id = $_SESSION['user_id'];
