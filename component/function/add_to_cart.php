@@ -7,7 +7,7 @@ if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
     exit;
 }
 
-require_once('/xampp/htdocs/component/db/db_config.php');
+require_once('./component/db/db_config.php');
 $pdo = pdo_connect_mysql();
 $product_id = $_POST['product_id'];
 $user_id = $_SESSION['user_id'];

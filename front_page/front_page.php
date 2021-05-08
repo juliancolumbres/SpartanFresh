@@ -2,7 +2,7 @@
 if(!isset($_SESSION)) {
     session_start();
 }
-require_once "/xampp/htdocs/component/product_card/product_card.php";
+require_once "../component/db/db_config.php";
 ?>
 
 <!DOCTYPE html>

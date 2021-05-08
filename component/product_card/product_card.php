@@ -1,5 +1,5 @@
 <?php
-require_once '/xampp/htdocs/component/db/db_config.php';
+require_once '../db/db_config.php';
 
 class ProductCard {
     private $pdo;
