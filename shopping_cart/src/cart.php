@@ -63,9 +63,10 @@ else {
 <html>
     <head>
         <title>Shopping Cart</title>
+        <link rel="stylesheet" href="../css/cart.css">
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="../js/cart.js"></script>
-        <link rel="stylesheet" href="../css/cart.css">
     </head>
 
     <?php 

@@ -5,18 +5,19 @@ if(!isset($_SESSION)) {
 require_once '/xampp/htdocs/component/db/db_config.php';
 $pdo = pdo_connect_mysql();
 
-$_SESSION['logged_in'] = 1;
-$user_id = $_SESSION['user_id'];
+if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] == true){
+    $user_id = $_SESSION['user_id'];
+}
 
 ?>
 
-<link rel="stylesheet" href="/component/head_nav/head_nav.css">
+<link rel="stylesheet" href="http://localhost/component/head_nav/head_nav.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
 <script src="/component/head_nav/head_nav.js"></script>
 
 <header>
     <div class="menu-bar-container">
-        <div onclick="window.location.href='/front_page/front_page.php';" class="menu-bar-logo-wrapper">
+        <div onclick="window.location.href='http\:\/\/localhost/front_page/front_page.php';" class="menu-bar-logo-wrapper">
             <div class="menu-bar-logo">
                 <img src="../../resource/icon/logo.svg">
             </div>
@@ -29,7 +30,7 @@ $user_id = $_SESSION['user_id'];
                 </button>
             </form>
         </div>
-        <div onclick="window.location.href='/user_center/user_center.php';" class="menu-bar-user-wrapper">
+        <div class="menu-bar-user-wrapper" id="username-click">
             <div class="user-info-wrapper">
                 <div class="menu-bar-user-icon">
                     <img src="../../resource/icon/user-icon.svg">
@@ -40,7 +41,7 @@ $user_id = $_SESSION['user_id'];
                 </div>
             </div>
         </div>
-        <div onclick="window.location.href='/shopping_cart/src/cart.php';" class="menu-bar-cart-wrapper">
+        <div class="menu-bar-cart-wrapper" id="cart-click">
             <div class="cart-info-wrapper">
                 <div class="menu-bar-cart-icon">
                     <img src="../../resource/icon/cart-icon.svg">
@@ -51,3 +52,10 @@ $user_id = $_SESSION['user_id'];
         </div>
     </div>
 </header>
+
+<div class="background-blur-container"></div>
+<div class="login-prompt-container">
+    <button class="close-login-prompt-btn" onclick="hideLogInPrompt()">&times;</button>
+    <button class="login-prompt-btn login-btn" onclick="window.location.href='http\:\/\/localhost/log_in/loginpage.php';">Log In</button>
+    <button class="login-prompt-btn register-btn" onclick="window.location.href='http\:\/\/localhost/registration/Registration.html';">Register</button>
+</div>

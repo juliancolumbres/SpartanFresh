@@ -3,10 +3,11 @@ if(!isset($_SESSION))
 {
   session_start();
 }
+
 // Check if the user is already logged in, if yes then redirect him to welcome page
-if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true){
-    header("location: all_category_view.php");
-    //echo "already login";
+if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] == true){
+    header("location: ../front_page/front_page.php");
+    echo "alert('already login')";
     exit;
 }
 
@@ -70,7 +71,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             //$_SESSION["email"] = $email;
                             //echo "login successful";
                             //header("all_category_view.php");
-                            header("location: all_category_view.php");
+                            header("location: ../front_page/front_page.php");
                         } else{
                             // Password is not valid, display a generic error message
                             $login_err = "Invalid email or password.";
