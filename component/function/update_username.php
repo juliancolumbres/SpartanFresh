@@ -2,7 +2,7 @@
 if(!isset($_SESSION)) {
     session_start();
 }
-require_once $_SERVER["DOCUMENT_ROOT"] . './component/db/db_config.php';
+require_once $_SERVER["DOCUMENT_ROOT"] . '/component/db/db_config.php';
 $pdo = pdo_connect_mysql();
 
 if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] == true) {

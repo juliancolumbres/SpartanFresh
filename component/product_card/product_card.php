@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"] . './component/db/db_config.php';
+require_once $_SERVER["DOCUMENT_ROOT"] . '/component/db/db_config.php';
 
 class ProductCard {
     private $pdo;
