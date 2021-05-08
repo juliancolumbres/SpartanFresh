@@ -25,7 +25,7 @@ function get_cart_quantity($user_id)
 
 // Set up required variables
 
-include_once('../htdocs/component/db/db_config.php');
+require_once $_SERVER["DOCUMENT_ROOT"] . './component/db/db_config.php';
 
 $pdo = pdo_connect_mysql();
 $user_id = $_SESSION['user_id'];

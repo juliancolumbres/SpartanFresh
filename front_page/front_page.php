@@ -2,7 +2,8 @@
 if(!isset($_SESSION)) {
     session_start();
 }
-require_once "../component/db/db_config.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . './component/db/db_config.php';
+require_once $_SERVER["DOCUMENT_ROOT"] . './component/product_card/product_card.php';
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +20,7 @@ require_once "../component/db/db_config.php";
     <script src="http://localhost/component/product_card/product_card.js"></script>
 </head>
 <?php 
-include_once '/xampp/htdocs/component/head_nav/head_nav.php';
+require_once $_SERVER["DOCUMENT_ROOT"] . './component/head_nav/head_nav.php';
 ?>
 <body>
     <div class="category-container">
