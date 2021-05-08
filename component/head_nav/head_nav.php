@@ -9,18 +9,17 @@ $pdo = pdo_connect_mysql();
 if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] == true){
     $user_id = $_SESSION['user_id'];
 }
-
 ?>
 
 <link rel="stylesheet" href="http://localhost/component/head_nav/head_nav.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
-<script src="/component/head_nav/head_nav.js"></script>
+<script src="http://localhost/component/head_nav/head_nav.js"></script>
 
 <header>
     <div class="menu-bar-container">
-        <div onclick="window.location.href='http\:\/\/localhost/front_page/front_page.php';" class="menu-bar-logo-wrapper">
+        <div onclick="window.location.href= location.protocol + '\/\/' + location.host + '/front_page/front_page.php';" class="menu-bar-logo-wrapper">
             <div class="menu-bar-logo">
-                <img src="../../resource/icon/logo.svg">
+                <img src="http://localhost/resource/icon/logo.svg">
             </div>
         </div>
         <div class="menu-bar-search-wrapper">
@@ -57,6 +56,6 @@ if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] == true){
 <div class="background-blur-container"></div>
 <div class="login-prompt-container">
     <button class="close-login-prompt-btn" onclick="hideLogInPrompt()">&times;</button>
-    <button class="login-prompt-btn login-btn" onclick="window.location.href='http\:\/\/localhost/log_in/loginpage.php';">Log In</button>
-    <button class="login-prompt-btn register-btn" onclick="window.location.href='http\:\/\/localhost/registration/Registration.html';">Register</button>
+    <button class="login-prompt-btn login-btn" onclick="window.location.href= location.protocol + '\/\/' + location.host + '/log_in/loginpage.php';">Log In</button>
+    <button class="login-prompt-btn register-btn" onclick="window.location.href= location.protocol + '\/\/' + location.host + '/registration/Registration.html';">Register</button>
 </div>

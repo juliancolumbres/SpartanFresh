@@ -10,14 +10,14 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/component/product_card/product_card.p
 <html lang="en">
 <head>
     <title>Spartan Fresh</title>
-    <link rel="stylesheet" href="http://localhost/front_page/css/layout.css">
-    <link rel="stylesheet" href="http://localhost/front_page/css/promo_slideshow.css">
-    <link rel="stylesheet" href="http://localhost/component/product_card/product_card.css">
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/promo_slideshow.css">
+    <link rel="stylesheet" href="../component/product_card/product_card.css">
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="http://localhost/front_page/js/promo_slide.js" defer></script>
-    <script src="http://localhost/component/product_card/product_card.js"></script>
+    <script src="./js/promo_slide.js" defer></script>
+    <script src="../component/product_card/product_card.js"></script>
 </head>
 <?php 
 require_once $_SERVER["DOCUMENT_ROOT"] . '/component/head_nav/head_nav.php';
@@ -75,7 +75,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/component/head_nav/head_nav.php';
             <div class="featued-title">
                 Deals
             </div>
-            <button onclick="window.location.href='http\:\/\/localhost/categories/products_view/all_category_view.php';">
+            <button onclick="window.location.href= location.protocol + '\/\/' + location.host + '/categories/products_view/all_category_view.php';">
                 More &#10095;
             </button>
         </div>

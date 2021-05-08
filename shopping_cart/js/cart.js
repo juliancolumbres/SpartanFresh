@@ -1,3 +1,7 @@
+var root = location.protocol + '//' + location.host;
+var modify_cart_url = root + '/shopping_cart/src/modify_cart.php';
+var update_username_url = root + '/component/function/update_username.php';
+
 $(document).ready(function() {
     updateEmptyCartMsg();
     $('.remove').click(function() {
@@ -7,7 +11,7 @@ $(document).ready(function() {
         var confirmMsg = confirm("Remove item?");
         if (confirmMsg) {
             $.ajax({
-                url: 'http://localhost/shopping_cart/src/modify_cart.php',
+                url: modify_cart_url,
                 type: 'POST',
                 data: { 
                     action: 'remove',
@@ -44,7 +48,7 @@ $(document).ready(function() {
         }
         
         $.ajax({
-            url: 'http://localhost/shopping_cart/src/modify_cart.php',
+            url: modify_cart_url,
             type: 'POST',
             data: { 
                 action: 'decrement',
@@ -74,7 +78,7 @@ $(document).ready(function() {
         }
 
         $.ajax({
-            url: 'http://localhost/shopping_cart/src/modify_cart.php',
+            url: modify_cart_url,
             type: 'POST',
             data: { 
                 action: 'increment',
@@ -107,7 +111,7 @@ function updateItemTotal(id) {
 // Get current subtotal
 function updateSubtotal() {
     $.ajax({
-        url: 'http://localhost/shopping_cart/src/modify_cart.php',
+        url: modify_cart_url,
         type: 'POST',
         data: { 
             action: 'getSubtotal',
@@ -143,7 +147,7 @@ function updateCartItemCount() {
 // Show or hide empty cart msg
 function updateEmptyCartMsg() {
     $.ajax({
-        url: 'http://localhost/shopping_cart/src/modify_cart.php',
+        url: modify_cart_url,
         type: 'POST',
         data: { 
             action: 'getCartItemCount',

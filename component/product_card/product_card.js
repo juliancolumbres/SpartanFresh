@@ -1,9 +1,12 @@
+var root = location.protocol + '//' + location.host;
+var add_to_cart_url = root + '/component/function/add_to_cart.php';
+var update_cart_item_count_url = root + '/component/function/update_cart_item_count.php';
 
 $(document).ready(function() {
     $('.add-to-cart').click(function() {
         var product_id = $(this).data('id');
         $.ajax({
-            url: 'http://localhost/component/function/add_to_cart.php',
+            url: add_to_cart_url,
             type: 'POST',
             data: {
                 product_id: product_id
@@ -14,7 +17,7 @@ $(document).ready(function() {
                 }
                 else if (response == 'success') {
                     $.ajax({
-                        url: 'http://localhost/component/function/update_cart_item_count.php',
+                        url: update_cart_item_count_url,
                         success: function(response) {
                             document.getElementById('cart-item-count-text').innerHTML = response;
                         }

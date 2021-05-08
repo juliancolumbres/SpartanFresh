@@ -1,14 +1,18 @@
+var root = location.protocol + '//' + location.host;
+var update_cart_item_count_url = root + '/component/function/update_cart_item_count.php';
+var update_username_url = root + '/component/function/update_username.php';
+
 $(document).ready(function () {
     hideLogInPrompt();
     $.ajax({
-        url: 'http://localhost/component/function/update_cart_item_count.php',
+        url: update_cart_item_count_url,
         type: 'POST',
         success: function(response) {
             updateItemCount(response);
         }
     });
     $.ajax({
-        url: 'http://localhost/component/function/update_username.php',
+        url: update_username_url,
         type: 'POST',
         success: function(response) {
             updateUsername(response);
@@ -34,9 +38,9 @@ function updateUsername(name) {
     else {
         // Change user and cart buttons to actual links
         document.getElementById('username-click').onclick 
-            = function() { window.location.href='http://localhost/user_center/user_center.php' };
+            = function() { window.location.href= location.protocol + '//' + location.host + '/user_center/user_center.php' };
         document.getElementById('cart-click').onclick 
-            = function() { window.location.href='http://localhost/shopping_cart/src/cart.php' };
+            = function() { window.location.href= location.protocol + '//' + location.host + '/shopping_cart/src/cart.php' };
         // Display username and item count
         document.getElementById('username-logged-in').style.display = 'block';
         document.getElementById('username-logged-in').innerHTML = name;

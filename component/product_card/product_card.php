@@ -45,7 +45,6 @@ class ProductCard {
             .'document.getElementById("before-price-label-' . $id . '").style.display="block";'
             .'</script>';
         }
-        echo $discount_script;
         // Weight unit
         $unit = $this->product_info['unit'];
         // Weight of each product
@@ -70,11 +69,10 @@ class ProductCard {
                 <span class="before-price" id="before-price-label-{$id}"><strike>&#36;{$original_price}</strike></span>
                 {$discount_script}
             </div>
-            <button class="add-to-cart" data-id={$id}>
-                Add
-            </button>
+            <button class="add-to-cart" data-id={$id}>Add</button>
         </div>
         HTML;
+        echo $discount_script;
     }
 }
 ?>
