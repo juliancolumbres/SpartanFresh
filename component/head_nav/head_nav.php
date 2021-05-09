@@ -23,9 +23,9 @@ if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] == true){
             </div>
         </div>
         <div class="menu-bar-search-wrapper">
-            <form>
-                <input type="text" placeholder="Search">
-                <button type="submit">
+            <form method="GET" action= "http://localhost/categories/products_view/search_view.php">
+                <input type="text" name="search" placeholder="Search">
+                <button type="submit" value="Search">
                     <img src="../../resource/icon/search-icon.svg">
                 </button>
             </form>

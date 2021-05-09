@@ -3,7 +3,13 @@ var add_to_cart_url = root + '/component/function/add_to_cart.php';
 var update_cart_item_count_url = root + '/component/function/update_cart_item_count.php';
 
 $(document).ready(function() {
-    $('.add-to-cart').click(function() {
+    $('.product-card-container').click(function() {
+        $(this).children('form').submit();
+    });
+
+
+    $('.add-to-cart').click(function(event) {
+        event.stopPropagation();
         var product_id = $(this).data('id');
         $.ajax({
             url: add_to_cart_url,
@@ -28,5 +34,5 @@ $(document).ready(function() {
                 }
             }
         });
-    })
+    });
 });

@@ -20,6 +20,13 @@ class ProductCard {
         $this->getProductInfo($id);
         // Stock
         $product_stock = $this->product_info['stock'];
+        $out_of_stock_script = '';
+        if ($product_stock < 1) {
+            $out_of_stock_script 
+            = '<script>'
+            .'document.getElementById("out-of-stock-' . $id . '").style.display="block";'
+            .'</script>';
+        }
         // Product image html tag
         $product_image = $this->product_info['image'];
         if ($product_image != null) {
@@ -60,7 +67,16 @@ class ProductCard {
         
         echo <<<HTML
         <div class="product-card-container">
+            <span class="out-of-stock-label" id="out-of-stock-{$id}">Sold Out</span>
+            {$out_of_stock_script}
+
             {$product_image_html}
+
+            <form method="GET" action="http://localhost/categories/products_view/product_view.php">
+                <input type="hidden" value="{$product_name}" name="product">
+            </form>
+
+
             <span class="product-title">{$product_name}{$product_name_weight}</span>
             <span class="unit-price">&#36;{$price_per_unit}/{$unit}</span>
             <div class="item-price-wrapper">
