@@ -141,19 +141,19 @@
             $sql = "INSERT INTO order_item (FK_order_id, FK_product_id, quantity) VALUES ('$thisOrderId', '$key', '$value')";
             $results = mysqli_query($conn, $sql);
             //Test only
-            if ($results){
-              echo "(Test only) Update Order Item";
-            }
-            echo "<br>";
+            // if ($results){
+            //   echo "(Test only) Update Order Item";
+            // }
+            // echo "<br>";
 
             //Update stock
             $sql = "UPDATE product SET stock = stock - $value WHERE product_id = '$key'";
             $results = mysqli_query($conn, $sql);
             //Test only
-            if ($results){
-              echo "(Test only) Update stock";
-            }
-            echo "<br>";
+            // if ($results){
+            //   echo "(Test only) Update stock";
+            // }
+            // echo "<br>";
           }
           //Clear the user's shopping cart
           $sql = "DELETE FROM item_in_cart WHERE FK_customer_id='$customerId'";
@@ -161,7 +161,7 @@
           if (!$results){
             echo mysqli_error($conn);
           }
-          echo "<br>";
+          // echo "<br>";
           //Update user's default payment_id and address_id
           $sql = "UPDATE user SET FK_payment_id = '$selectedPaymentId', FK_address_id = '$selectedAddressId' WHERE user_id='$customerId'";
           $results = mysqli_query($conn, $sql);
