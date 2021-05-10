@@ -9,6 +9,6 @@ function setAddressSuccess() {
 }
 
 function notLoginIn() {
-  alert("Uh-oh, you are not logined in");
+  alert("Uh-oh, you are not logged in");
   window.location = "/index.php";
 }
