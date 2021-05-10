@@ -10,5 +10,5 @@ function setAddressSuccess() {
 
 function notLoginIn() {
   alert("Uh-oh, you are not logined in");
-  window.location = "../front_page/front_page.php";
+  window.location = "/index.php";
 }

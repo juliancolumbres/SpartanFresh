@@ -30,10 +30,10 @@ class ProductCard {
         // Product image html tag
         $product_image = $this->product_info['image'];
         if ($product_image != null) {
-            $product_image_html = '<img src="' . $product_image . '" loading="lazy">';
+            $product_image_html = '<img src="' . $product_image . '" loading="lazy" height="185">';
         } 
         else {
-            $product_image_html = '<img src="http://localhost/resource/img/default/product_large.png" loading="lazy">';
+            $product_image_html = '<img src="http://localhost/resource/img/default/product_large.png" loading="lazy" height="185px">';
         }
         // Product name
         $product_name = $this->product_info['product_name'];

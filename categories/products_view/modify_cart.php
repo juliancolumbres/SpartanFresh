@@ -54,7 +54,8 @@ function add_to_cart($product_id, $user_id, $quantity_to_add) {
 
     // If (inventory stock - quantity in cart - item quantity) is less than or equal to 0, do not allow add to cart
     if ($item_stock - $item_in_cart_quantity - $quantity_to_add < 0) {
-        echo '<script>alert("Unable to add to cart. Quantity in cart exceeds current item stock.")</script>';    
+        echo '<script>alert("Unable to add to cart. Quantity in cart exceeds current item stock.")</script>';
+        echo '<script>window.history.back()</script>'; 
     } else {
         // Create new item in cart if current quantity is 0
         if ($item_in_cart_quantity == 0) {
@@ -66,6 +67,7 @@ function add_to_cart($product_id, $user_id, $quantity_to_add) {
             $stmt->execute();
         }
         echo '<script>alert("Successfully updated cart.")</script>';
+        echo '<script>window.history.back()</script>';
     }
 }
 ?>

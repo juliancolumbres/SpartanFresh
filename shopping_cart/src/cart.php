@@ -1,7 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Shopping Cart</title>
+        <link rel="stylesheet" href="../css/cart.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="../js/cart.js"></script>
+        <script src="../../user_center/set_default.js"></script>
+    </head>
+
+
+
 <?php 
 if(!isset($_SESSION)) {
     session_start();
 }
+
+if(!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false) {
+    echo "<script>notLoginIn()</script>";
+}
+
 require_once $_SERVER["DOCUMENT_ROOT"] . '/component/db/db_config.php';
 $pdo = pdo_connect_mysql();
 
@@ -53,26 +71,17 @@ if ($item_in_cart_count == 0 || $item_in_cart_count == 1) {
 }
 else {
     $item_in_cart_count_text = $item_in_cart_count .  ' items';
-} 
-
-
-
+}
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Shopping Cart</title>
-        <link rel="stylesheet" href="../css/cart.css">
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="../js/cart.js"></script>
-    </head>
+
+
 
     <?php 
     include '../../component/head_nav/head_nav.php';
     ?>
-
+    
 
     <body>
         <div class="main-container">
