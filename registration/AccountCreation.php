@@ -27,7 +27,7 @@
                 $_SESSION['user_id'] = $row['user_id'];
                 echo "<div style=\"text-align:center;\">";
                 echo "<h3>Success!</h3>";
-                echo '<a href="../loginpage2/loginpage.php">Login</a>';
+                echo '<a href="../log_in/loginpage.php">Login</a>';
                 echo "</div>";
             }
                 
