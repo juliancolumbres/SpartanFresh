@@ -7,6 +7,7 @@ if(!isset($_SESSION["logged_in"]) || !$_SESSION["logged_in"]) {
     exit;
 }
 
+require_once $_SERVER["DOCUMENT_ROOT"] . '/component/function/check_if_can_add.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/component/db/db_config.php';
 $pdo = pdo_connect_mysql();
 $product_id = $_POST['product_id'];
@@ -38,6 +39,11 @@ function add_one_to_cart($product_id, $pdo, $user_id) {
     $stmt = $pdo->prepare("SELECT * FROM item_in_cart WHERE FK_product_id = '$product_id' AND FK_customer_id = '$user_id'");
     $stmt->execute();
     $item_in_cart_count = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!if_can_add($pdo, $user_id, $product_id, 1)) {
+        echo 'exceeds current stock';
+        exit;
+    }
 
     // If item does not exist in cart, insert the item
     if (!$item_in_cart_count) {

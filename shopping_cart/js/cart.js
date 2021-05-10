@@ -1,6 +1,7 @@
 var root = location.protocol + '//' + location.host;
 var modify_cart_url = root + '/shopping_cart/src/modify_cart.php';
 var update_username_url = root + '/component/function/update_username.php';
+var check_stock_url = root + '/component/function/get_cart_item_stock.php';
 
 $(document).ready(function() {
     updateEmptyCartMsg();
@@ -73,30 +74,46 @@ $(document).ready(function() {
         var idToIncrement = $(this).data('id');
         var textId = 'quantity-text-' + idToIncrement;
         var newVal = Number(document.getElementById(textId).innerHTML) + 1;
+
         if (newVal > 99) {
             return;
         }
 
+        var exceed_stock = false;
         $.ajax({
-            url: modify_cart_url,
+            url: check_stock_url,
             type: 'POST',
-            data: { 
-                action: 'increment',
-                id: idToIncrement,
-                newVal: newVal
+            data: {
+                item_id: idToIncrement
             },
             success: function(response) {
-                if (response == 1) {
-                    document.getElementById(textId).innerHTML = newVal;
-                    updateItemTotal(idToIncrement);
-                    updateSubtotal();
-                    updateCartItemCount();
+                if (newVal > response) {
+                    alert('Amount in cart exceeds current stock!');
+                    return;
                 }
-                else {
-                    alert('Failed to increment!');
-                }
+
+                $.ajax({
+                    url: modify_cart_url,
+                    type: 'POST',
+                    data: { 
+                        action: 'increment',
+                        id: idToIncrement,
+                        newVal: newVal
+                    },
+                    success: function(response) {
+                        if (response == 1) {
+                            document.getElementById(textId).innerHTML = newVal;
+                            updateItemTotal(idToIncrement);
+                            updateSubtotal();
+                            updateCartItemCount();
+                        }
+                        else {
+                            alert('Failed to increment!');
+                        }
+                    }
+                });
             }
-        });
+        });     
     });
 });
 

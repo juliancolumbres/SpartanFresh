@@ -1,9 +1,50 @@
+* {
+    font-family: 'Lato', sans-serif;
+}
+
+#cover {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    backdrop-filter: saturate(180%) blur(100px);
+    background-color: rgba(248, 245, 242, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 header {
     position: sticky;
     z-index: 100;
     top: 0;
-    backdrop-filter: saturate(180%) blur(10px);
+}
+
+.log-out-container {
+    margin-left: auto;
+    margin-right: 20px;
+    margin-top: 10px;
+    width: fit-content;
+    height: fit-content;
+    padding-left: 3px;
+    padding-right: 3px;
+    color: #4C7C7D;
+    backdrop-filter: saturate(180%) blur(100px);
     background-color: rgba(248, 245, 242, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.2px solid #4C7C7D;
+    transition-duration: .2s;
+    cursor: pointer;
+}
+
+.log-out-container:hover {
+    color: rgba(255, 255, 255, 0.822);
+    border: 1.2px solid transparent;
+    background-color: rgba(76, 124, 125, 0.795);
 }
 
 .menu-bar-container {
@@ -12,6 +53,8 @@ header {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    backdrop-filter: saturate(180%) blur(10px);
+    background-color: rgba(248, 245, 242, 0.1);
 }
 
 .menu-bar-logo-wrapper {
@@ -67,7 +110,6 @@ header {
     justify-content: center;
     align-items: center;
     border: 1.2px solid transparent;
-    border-radius: 3px;
     transition-duration: .2s;
     cursor: pointer;
 }
@@ -97,7 +139,6 @@ header {
     justify-content: center;
     align-items: center;
     border: 1.2px solid transparent;
-    border-radius: 3px;
     transition-duration: .2s;
     cursor: pointer;
 }
@@ -113,6 +154,7 @@ header {
 }
 
 .background-blur-container {
+    display: none;
     z-index: 199;
     position: fixed;
     top: 0;
@@ -125,6 +167,7 @@ header {
 }
 
 .login-prompt-container {
+    display: none;
     z-index: 200;
     position: fixed;
     top: 50%;

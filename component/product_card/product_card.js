@@ -32,6 +32,9 @@ $(document).ready(function() {
                 else if (response == 'out of stock') {
                     alert('Out-of-stock');
                 }
+                else if (response == 'exceeds current stock') {
+                    alert('Amount to add exceeds current stock!');
+                }
             }
         });
     });

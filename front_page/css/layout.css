@@ -34,6 +34,10 @@ html {
     padding-bottom: .3rem;
 }
 
+#all-icon {
+    height: 1.5rem;
+}
+
 .category-card > span {
     padding-left: .5rem;
     padding-right: 1rem;

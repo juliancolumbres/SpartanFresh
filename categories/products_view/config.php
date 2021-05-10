@@ -28,16 +28,16 @@ function get_cart_quantity($user_id)
 require_once $_SERVER["DOCUMENT_ROOT"] . '/component/db/db_config.php';
 
 $pdo = pdo_connect_mysql();
-$user_id = $_SESSION['user_id'];
+// $user_id = $_SESSION['user_id'];
 
-// Fetch customer's first name
-$first_name = get_first_name($user_id);
+// // Fetch customer's first name
+// $first_name = get_first_name($user_id);
 
-// Fetch item in cart count
-$stmt = $pdo->prepare("SELECT * FROM item_in_cart WHERE FK_customer_id = '$user_id'");
-$stmt->execute();
-$items_in_cart = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$item_in_cart_count = get_cart_quantity($user_id);
+// // Fetch item in cart count
+// $stmt = $pdo->prepare("SELECT * FROM item_in_cart WHERE FK_customer_id = '$user_id'");
+// $stmt->execute();
+// $items_in_cart = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $item_in_cart_count = get_cart_quantity($user_id);
 
 include "modify_cart.php";
 ?>

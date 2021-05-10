@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'config.php';
+require_once $_SERVER["DOCUMENT_ROOT"] . '/component/function/check_if_can_add.php';
 
 $pdo = pdo_connect_mysql();
 

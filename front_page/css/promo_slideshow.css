@@ -1,5 +1,6 @@
 .promo-slide-container {
     width: 55vw;
+    min-width: 900px;
     position: relative;
     background-color: white;
     margin: 0 auto 1rem;

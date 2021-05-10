@@ -4,6 +4,21 @@ if(!isset($_SESSION)) {
 }
 require_once $_SERVER["DOCUMENT_ROOT"] . '/component/db/db_config.php';
 require_once $_SERVER["DOCUMENT_ROOT"] . '/component/product_card/product_card.php';
+
+$pdo = pdo_connect_mysql();
+
+// Get products in sorted stock
+$stmt = $pdo->prepare("SELECT * FROM product WHERE stock > 0");
+$stmt->execute();
+$best_seller_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+usort($best_seller_products, function ($item1, $item2) {
+    return ($item1['price'] - ($item1['price'] * $item1['discount'] / 100))  <=> ($item2['price'] - ($item2['price'] * $item2['discount'] / 100));
+});
+
+// Get discounted products
+$stmt = $pdo->prepare("SELECT * FROM product WHERE discount > 0");
+$stmt->execute();
+$discounted_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -24,33 +39,33 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/component/head_nav/head_nav.php';
 ?>
 <body>
     <div class="category-container">
-        <div class="category-card">
-            <img src="../resource/icon/category/default.png">
-            <span>fruit</span>
+        <div class="category-card" onclick="window.location.href='../categories/products_view/all_category_view.php';">
+            <img id="all-icon" src="../resource/icon/category/all.png">
+            <span>All</span>
         </div>
-        <div class="category-card">
-            <img src="../resource/icon/category/default.png">
-            <span>Vegetable</span>
+        <div class="category-card" onclick="window.location.href='../categories/products_view/fruit_view.php';">
+            <img src="../resource/icon/category/grapes.png">
+            <span>Fruits</span>
         </div>
-        <div class="category-card">
-            <img src="../resource/icon/category/default.png">
-            <span>protein</span>
+        <div class="category-card" onclick="window.location.href='../categories/products_view/vegetable_view.php';">
+            <img src="../resource/icon/category/cabbage.png">
+            <span>Vegetables</span>
         </div>
-        <div class="category-card">
-            <img src="../resource/icon/category/default.png">
-            <span>dairy</span>
+        <div class="category-card" onclick="window.location.href='../categories/products_view/protein_view.php';">
+            <img src="../resource/icon/category/meat.png">
+            <span>Protein</span>
         </div>
-        <div class="category-card">
-            <img src="../resource/icon/category/default.png">
-            <span>baked goods</span>
+        <div class="category-card" onclick="window.location.href='../categories/products_view/dairy_view.php';">
+            <img src="../resource/icon/category/dairy.png">
+            <span>Dairy</span>
         </div>
-        <div class="category-card">
-            <img src="../resource/icon/category/default.png">
-            <span>sweets</span>
+        <div class="category-card" onclick="window.location.href='../categories/products_view/baked_goods_view.php';">
+            <img src="../resource/icon/category/bread.png">
+            <span>Baked Goods</span>
         </div>
-        <div class="category-card">
-            <img src="../resource/icon/category/default.png">
-            <span>sweets</span>
+        <div class="category-card" onclick="window.location.href='../categories/products_view/sweets_view.php';">
+            <img src="../resource/icon/category/chips.png">
+            <span>Sweets</span>
         </div>
     </div>
 
@@ -75,16 +90,45 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/component/head_nav/head_nav.php';
             <div class="featued-title">
                 Deals
             </div>
-            <button onclick="window.location.href= location.protocol + '\/\/' + location.host + '/categories/products_view/all_category_view.php';">
-                More &#10095;
+            <button onclick="window.location.href= location.protocol + '\/\/' + location.host + '/categories/products_view/deals_view.php';">
+                See All &#10095;
+            </button>
+        </div>
+        <div class="featured-card-container">
+        <?php 
+            $card = new ProductCard();
+
+            $discounted_product_num = sizeof($discounted_products);
+            if ($discounted_product_num > 6) {
+                $discounted_product_num = 6;
+            }
+            for ($x = 0; $x < $discounted_product_num; $x++) {
+                $card->generateCard($discounted_products[$x]['product_id']);
+            }
+            ?>
+        </div>
+    </div>
+
+    <div class="featued-container">
+        <div class="featued-info">
+            <div class="featued-title">
+                Best Sellers
+            </div>
+            <button onclick="window.location.href= location.protocol + '\/\/' + location.host + '/categories/products_view/best_seller_view.php';">
+                See All &#10095;
             </button>
         </div>
         <div class="featured-card-container">
             <?php 
             $card = new ProductCard();
-            $card->generateCard(16);
-            $card->generateCard(18);
-            $card->generateCard(22);
+
+            $best_seller_num = sizeof($best_seller_products);
+            if ($best_seller_num > 6) {
+                $best_seller_num = 6;
+            }
+            for ($x = 0; $x < $best_seller_num; $x++) {
+                $card->generateCard($best_seller_products[$x]['product_id']);
+            }
             ?>
         </div>
     </div>

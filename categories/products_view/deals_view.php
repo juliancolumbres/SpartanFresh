@@ -2,12 +2,13 @@
 session_start();
 include 'config.php';
 
-// Get all fruits
-$stmt = $pdo->prepare("SELECT * FROM product WHERE FK_category_id = 1");
+// Get all deals items
+$stmt = $pdo->prepare("SELECT * FROM product WHERE discount > 0");
 $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 include_once "header.php";
+
 ?>
 
 <nav class="navbar navbar-default">
@@ -17,9 +18,9 @@ include_once "header.php";
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-center">
         <li><a href="all_category_view.php">All</a></li>
-        <li><a href="deals_view.php">Deals</a></li>
+        <li class="active"><a href="deals_view.php">Deals</a></li>
         <li><a href="best_seller_view.php">Best Sellers</a></li>
-        <li class="active"><a href="fruit_view.php">Fruits</a></li>
+        <li><a href="fruit_view.php">Fruits</a></li>
         <li><a href="vegetable_view.php">Vegetables</a></li>
         <li><a href="protein_view.php">Protein</a></li>
         <li><a href="dairy_view.php">Dairy</a></li>

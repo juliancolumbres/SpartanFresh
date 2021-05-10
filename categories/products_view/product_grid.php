@@ -5,24 +5,31 @@
     }
  ?>
 
+
 <div class="container">
 <?php
 // for loop
-for($row = 0; $row < count($products) / 3; $row++) {
+for($row = 0; $row < count($products) / 4; $row++) {
 ?>
 
 <div class="container">
   <div class="row">
     <?php
-    for ($index = $row * 3; $index < $row * 3 + 3 && $index != count($products); $index++) {
+    for ($index = $row * 4; $index < $row * 4 + 4 && $index != count($products); $index++) {
         $name = $products[$index]['product_name'];
         $price = $products[$index]['price'];
         $weight = $products[$index]['shipping_weight'];
         $stock = $products[$index]['stock'];
         $product_id = $products[$index]['product_id'];
+
+        
     ?>
-    <div class="col-sm-4">
-      <div class="panel panel-success">
+    <div class="col-sm-3">
+      <?php
+        $card = new ProductCard();
+        $card -> generateCard($product_id);
+        ?>
+      <!-- <div class="panel panel-success">
         <div class="panel-heading"><?php echo($name)?></div>
         <div class="panel-body">
           <form method="GET" action="product_view.php" class="form-inline">
@@ -40,7 +47,7 @@ for($row = 0; $row < count($products) / 3; $row++) {
               <input class="btn btn-success" type="submit" value="Add">
             </form>
         </div>
-      </div>
+      </div> -->
     </div>
     <?php
     }
