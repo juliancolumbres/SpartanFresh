@@ -1,12 +1,18 @@
 <?php
-  session_start();
+  if(!isset($_SESSION)) {
+    //start session
+    session_start();
+  }
+  if(!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false) {
+    echo "<script>notLoginIn()</script>";
+  }
   $customerId = $_SESSION['user_id'];
 ?>
 <html>
   <head>
     <title>New Payment Method</title>
     <style>
-      <?php include "checkout.css" ?>
+      <?php include "user_center.css" ?>
     </style>
   </head>
   <?php include_once '../component/head_nav/head_nav.php'; ?>
@@ -45,7 +51,6 @@
         $expirationYear = $_POST["expirationYear"];
         $securityCode = $_POST["securityCode"];
 
-
         //add payment method
         $sql = "INSERT INTO customer_payment (FK_customer_id, name_on_card, card_number, exp_month, exp_year, cvc_code) VALUES ('$customerId', '$nameOnCard', '$cardNumber', '$expirationMonth', '$expirationYear', '$securityCode')";
         $results = mysqli_query($conn, $sql);
@@ -62,10 +67,10 @@
           echo "Nothing was Added";
       }
     }
-
+    mysqli_close($conn);
     ?>
       <br>
-      <a href="checkout.php">Go Back To Checkout</a>
+      <a href="user_center.php">Go Back To User Center</a>
     </div>
   </body>
 </html>

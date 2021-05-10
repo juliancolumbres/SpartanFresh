@@ -1,5 +1,11 @@
 <?php 
-  session_start();
+  if(!isset($_SESSION)) {
+    //start session
+    session_start();
+  }
+  if(!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false) {
+    echo "<script>notLoginIn()</script>";
+  }
   //Get customer id
   $customerId = $_SESSION['user_id'];
   //create connection
@@ -16,7 +22,9 @@
       <?php include "order_history.css" ?>
     </style>
   </head>
+  <?php include_once '../component/head_nav/head_nav.php'; ?>
   <body>
+    <br><br>
     <h1> Order History</h1>
     <div class="flex-container">
     <?php
@@ -81,9 +89,11 @@
           </table>
         </div>
               <?php
-       }
+      } 
       ?>
-          
     </div>
+    <div class="a">
+    <a class="a" href="user_center.php">Go Back To User Center</a>
+      </div>
   </body>
 </html>

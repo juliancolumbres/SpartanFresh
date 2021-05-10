@@ -59,6 +59,8 @@ if (isset($_GET['quantity-to-add'])) {
     $quantity_to_add = $add_result_arr[1]; 
     add_to_cart($id, $user_id, $quantity_to_add);
 }
+
+// echo '<script>document.getElementById(\'addForm\').reset();</script>';
 ?>
 <!-- <div class="container">    
   <div class="row">
@@ -144,12 +146,12 @@ if (isset($_GET['quantity-to-add'])) {
     // Get image file
     if ($product_image != null) {
     ?>
-    <img src="<?=$product_image?>">
+    <img src="<?=$product_image?>" loading="lazy">
     <?php
     }
     else {
     ?>
-    <img src="http://localhost/resource/img/default/product_large.png">
+    <img src="http://localhost/resource/img/default/product_large.png" loading="lazy">
     <?php
     }
     // Get card title
@@ -195,7 +197,7 @@ if (isset($_GET['quantity-to-add'])) {
       <div class="d__add-selected-container">
         <div class="form-group">
           <div class="row">
-            <form name="add_product" action="product_view.php">
+            <form id="addForm" name="add_product" action="product_view.php">
               <div class="col-md-5">
                 <select class="form-control" name="quantity-to-add">
                   <?php

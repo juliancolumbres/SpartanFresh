@@ -1,6 +1,11 @@
 <?php
-  //start session
-  session_start();
+  if(!isset($_SESSION)) {
+    //start session
+    session_start();
+  }
+  if(!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false) {
+    echo "<script>notLoginIn()</script>";
+  }
   //Get customer id
   $customerId = $_SESSION['user_id'];
   //Set default timezone. (Since our website is only for San Jose downtown area,
@@ -41,12 +46,15 @@
       <?php include "checkout.js"; ?>
     </script>
   </head>
+  <?php include_once '../component/head_nav/head_nav.php'; ?>
   <body>
     <h1>Checkout</h1>
     <br>
     <?php
       $total = 0;
       $totalBeforeTax = 0;
+      $totalDiscount = 0;
+      $totalAfterDiscount = 0;
       $totalWeight = 0;
       $freeDeliveryWeight = 20; //In pounds
       $deliveryFee = 5;
@@ -56,7 +64,7 @@
       $results = mysqli_query($conn, $sql);
       //If no item in cart, stop the rest of code so user cannot place order.
       if (mysqli_num_rows($results) === 0) {
-        echo "<h3>Sorry, there is no item in your shopping cart. Please go back to shopping.</h3><br>";
+        echo "<h3>Sorry, there is no item in your shopping cart. Please go back to shopping.</h3>";
         echo "<button class=\"returnButton\" onclick=\"continueShopping()\">Continue Shopping</button>";
         exit("");
       }
@@ -68,12 +76,13 @@
         $orderProductId = $row['FK_product_id'];
         $quantity = $row['quantity'];
         //Get the item's stock from product database
-        $sql1 = "SELECT stock, product_name, price, shipping_weight FROM product WHERE product_id='$orderProductId'";
+        $sql1 = "SELECT stock, product_name, price, discount, shipping_weight FROM product WHERE product_id='$orderProductId'";
         $results1 = mysqli_query($conn, $sql1);
         while ($row=mysqli_fetch_assoc($results1)){
           $stock = $row['stock'];
           $productName = $row['product_name'];
           $price = $row['price'];
+          $discount = $row['discount'];
           $shippingWeight = $row['shipping_weight'];
         }
         //If the item quantity in the cart is more than the avaliable stock,
@@ -87,10 +96,10 @@
           //Make the array key = product_id, value = quantity
 
           $totalBeforeTax += $price * $quantity;
+          $totalDiscount += $price * ($discount / 100) * $quantity;
           $totalWeight += $shippingWeight * $quantity;
         }
       }
-
       //If there is item that does not have enough stock, print it out and stop execute rest of the code so user cannot place the order.
       if (!empty($notEnoughStockItems)){
 
@@ -98,14 +107,14 @@
         foreach ($notEnoughStockItems as $value) {
            echo $value . ", ";
         }
-        echo " we do not have enough stock for your order. Please <a href=\"checkout.php\">Go Back To Shopping Cart</a>.</h3>";
+        echo " we do not have enough stock for your order. Please <a href=\"../shopping_cart/src/cart.php\">Go Back To Shopping Cart</a>.</h3>";
 
         exit("");
       }
-
-      $orderTax = $totalBeforeTax * $salesTax;
+      $totalAfterDiscount = $totalBeforeTax - $totalDiscount;
+      $orderTax = $totalAfterDiscount * $salesTax;
       $orderTax = round($orderTax, 2);//Round to 2 decimal
-      $total = $totalBeforeTax + $orderTax;
+      $total = $totalAfterDiscount + $orderTax;
       //Add delivery fee if total weigtht is over max free delivery weight
       if ($totalWeight >= $freeDeliveryWeight){
         $shippingFee = $deliveryFee;
@@ -163,6 +172,10 @@
               <td>Items:</td>
               <td>$<?php echo $totalBeforeTax;?></td>
             </tr>
+            <tr class="discount">
+              <td>Discount:</td>
+              <td>-$<?php echo $totalDiscount;?></td>
+            </tr>
             <tr>
               <td>Shipping fee:
                 <!--Notify the delivery fee police-->
@@ -174,7 +187,7 @@
             </tr>
             <tr>
               <td>Tatal Before Tax:</td>
-              <td>$<?php echo $totalBeforeTax;?></td>
+              <td>$<?php echo $totalAfterDiscount;?></td>
             </tr>
             <tr>
               <td>Estimated Tax:</td>
@@ -196,7 +209,7 @@
         $defaultPayment_id = $row['FK_payment_id'];
         $defaultAddress_id = $row['FK_address_id'];
 
-        $sql = "SELECT name_on_card, card_number, exp_month, exp_year, cvc_code FROM customer_payment WHERE payment_id='$defaultPayment_id'";
+        $sql = "SELECT name_on_card, card_number, exp_month, exp_year FROM customer_payment WHERE payment_id='$defaultPayment_id'";
 
         $results = mysqli_query($conn, $sql);
         if ($row=mysqli_fetch_assoc($results)){
@@ -204,7 +217,6 @@
           $card_number = $row['card_number'];
           $exp_month = $row['exp_month'];
           $exp_year = $row['exp_year'];
-          $cvc_code = $row['cvc_code'];
           //Create the default payment option
           $defaultPaymentOption = "Ending in " . substr($card_number, 15) . ", Name On Card: " . $name_on_card . ", expires: " . $exp_month . "/" . $exp_year;
         }
@@ -238,7 +250,7 @@
               <option value="<?php echo $defaultPaymentOption;?>|<?php echo $defaultPayment_id;?>"><?php echo $defaultPaymentOption;?></option>
               <?php 
             }
-          $sql = "SELECT payment_id, name_on_card, card_number, exp_month, exp_year, cvc_code FROM customer_payment WHERE FK_customer_id='$customerId'";
+          $sql = "SELECT payment_id, name_on_card, card_number, exp_month, exp_year FROM customer_payment WHERE FK_customer_id='$customerId'";
           $results = mysqli_query($conn, $sql);
 
           while ($row=mysqli_fetch_assoc($results))
@@ -250,7 +262,6 @@
               $card_number = $row['card_number'];
               $exp_month = $row['exp_month'];
               $exp_year = $row['exp_year'];
-              $cvc_code = $row['cvc_code'];
               //Create payment option
               $paymentOption = "Ending in " . substr($card_number, 15) . ", Name On Card: " . $name_on_card . ", expires: " . $exp_month . "/" . $exp_year;
               echo $paymentOption;
@@ -321,31 +332,37 @@
       //Display what customer selected
       echo '<h class="h">Selected Payment Method: </h>';
       if (isset($_POST['payment_option'])) {
-        $selected_payment= $_POST['payment_option'];
-        //Separate name and id. Display payment name only
-        $payment_explode = explode('|', $selected_payment);
-        $selectedPayment = $payment_explode[0];
-        $selectedPaymentId = $payment_explode[1];
-        echo $selectedPayment;
+        if ($_POST['payment_option']) {
+          $selected_payment= $_POST['payment_option'];
+          //Separate name and id. Display payment name only
+          $payment_explode = explode('|', $selected_payment);
+          $selectedPayment = $payment_explode[0];
+          $selectedPaymentId = $payment_explode[1];
+          echo $selectedPayment;
+        }
       }
       echo "<br><br>";
 
       echo '<h class="h">Selected Shipping Address: </h>';
       if (isset($_POST['address_option'])) {
-        $selected_address = $_POST['address_option'];
-        //Separate name and id. Display address name only
-        $address_explode = explode('|', $selected_address);
-        $selectedAddress = $address_explode[0];
-        $selectedAddressId = $address_explode[1];
-        echo $selectedAddress;
+        if ($_POST['address_option']) {
+          $selected_address = $_POST['address_option'];
+          //Separate name and id. Display address name only
+          $address_explode = explode('|', $selected_address);
+          $selectedAddress = $address_explode[0];
+          $selectedAddressId = $address_explode[1];
+          echo $selectedAddress;
+        }
       }
       echo "<br><br>";
 
       echo '<h class="h">Selected Delivery Date: </h>';
       if (isset($_POST['date_option'])) {
-        $selectedDate = $_POST['date_option'];
-        //Display date
-        echo $selectedDate;
+        if ($_POST['date_option']) {
+          $selectedDate = $_POST['date_option'];
+          //Display date
+          echo $selectedDate;
+        }
       }
       echo "<br><br>";
 
