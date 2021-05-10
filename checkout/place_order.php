@@ -7,6 +7,7 @@
     <script>
       <?php include "checkout.js"; ?>
     </script>
+    <script src="../user_center/set_default.js"></script>
   </head>
   <?php include_once '../component/head_nav/head_nav.php'; ?>
   <?php

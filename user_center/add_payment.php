@@ -1,12 +1,8 @@
 <html>
   <head>
     <title>New Payment Method</title>
-    <style>
-      <?php include "user_center.css" ?>
-    </style>
-    <script>
-      <?php include "user_center.js";?>
-    </script>
+    <style><?php include "user_center.css" ?></style>
+    <script><?php include "user_center.js";?></script>
   </head>
   <?php include_once '../component/head_nav/head_nav.php'; ?>
   <?php
@@ -21,7 +17,7 @@
   ?>
   <body>
     <div class="addInfo">
-    <h2>Add New Payment Method</h2>
+    <h4>Add New Payment Method</h4>
     <form method="post" class="addInfo_form">
       <label for="nameOnCard">Name On Card:</label>
       <input type="text" name="nameOnCard" class="input" required><br>
@@ -33,7 +29,7 @@
       <input type="text" name="expirationYear" class="input" pattern="[0-9]{4}" placeholder="Four digit: e.g., 1234" required><br>
       <label for="securityCode">Security Code:</label>
       <input type="text" name="securityCode" class="input" pattern="[0-9]{3}" placeholder="Three digit: e.g., 123" required><br>
-      <input type="submit" class="button" value="Add">
+      <input type="submit" class="button add-btn" value="Add">
     </form>
     
     <?php
@@ -70,7 +66,6 @@
           echo "Nothing was Added";
       }
     }
-    mysqli_close($conn);
     ?>
       <br>
       <a href="user_center.php">Go Back To User Center</a>

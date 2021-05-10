@@ -1,13 +1,13 @@
 <html>
-    <head>
-        <title>User Center</title>
-        <style>
-          <?php include "user_center.css";?>
-        </style>
-        <script>
-          <?php include "user_center.js";?>
-        </script>
-    </head>
+  <head>
+    <title>User Center</title>
+    <style>
+      <?php include "user_center.css";?>
+    </style>
+    <script>
+      <?php include "user_center.js";?>
+    </script>
+  </head>
     <?php include_once '../component/head_nav/head_nav.php'; ?>
     <?php 
       if(!isset($_SESSION)) {
@@ -27,21 +27,27 @@
       }
     ?>
     <body>
-      <h1 class="h1">User Center</h2>
+      <div class="section-title">
+        <h3>User Center</h3>
+      </div>
+      
       
       <div class="head_button">
         <button class="button" onclick="getHistory()">Order History</button>
         <button class="button" onclick="setAddress()">
-          <div class="tooltip">Set Default Address
-            <span class="tooltiptext"> You can set your default address</span>
+          Set Default Address
+          <div class="tooltip">
+            <p class="tooltiptext">You can still select address during checkout</p>
           </div>
         </button>
         <button class="button" onclick="setPayment()">
-          <div class="tooltip">Set Default Payment
-            <span class="tooltiptext"> You can set your default payment</span>
+          Set Default Payment
+          <div class="tooltip">
+            <p class="tooltiptext">You can still select payment during checkout</p>
           </div>
         </button>
       </div>
+
       <div class="flex-container">
          
         <?php
@@ -57,61 +63,63 @@
               echo mysqli_error($conn);
             }
             ?>
-            <div class="info"> 
-                <h3>Basic Information</h3>
-                <p><b>Name: </b>
-                <?php echo $firstName . " " . $lastName;?></p>
-                <p><b>Email: </b>
-                <?php echo $email;?></p>
-                <p><b>Phone: </b>
-                <?php echo $phone;?> </p>
+            <div class="info display-box"> 
+                <span><b>Basic Information</b></span><br>
+                <span>Name: <?php echo $firstName . " " . $lastName;?></span><br>
+                <span>Email: <?php echo $email;?></span><br>
+                <span>Phone: <?php echo $phone;?></span>
             </div>
         <?php 
             $sql = "SELECT payment_id, name_on_card, card_number, exp_month, exp_year FROM customer_payment WHERE FK_customer_id='$customerId'";
             $results = mysqli_query($conn, $sql);
             ?>
-            <div class="payment">
-              <h3>Payment Method</h3>
-            <?php 
-            while ($row=mysqli_fetch_assoc($results))
-            {
-              $payment_id = $row['payment_id'];
-              $name_on_card = $row['name_on_card'];
-              $card_number = $row['card_number'];
-              $exp_month = $row['exp_month'];
-              $exp_year = $row['exp_year'];
-              //Create payment option
-              $payment= "Ending in " . substr($card_number, 15) . ", Name On Card: " . $name_on_card . ", expires: " . $exp_month . "/" . $exp_year;
+            <div class="payment display-box">
+              <span><b>Payment Methods</b></span><br>
+
+              <?php 
+              while ($row = mysqli_fetch_assoc($results)) {
+                $payment_id = $row['payment_id'];
+                $name_on_card = $row['name_on_card'];
+                $card_number = $row['card_number'];
+                $exp_month = $row['exp_month'];
+                $exp_year = $row['exp_year'];
+                //Create payment option
+                $payment= "Ending in " . substr($card_number, 15) . ", Name On Card: " . $name_on_card . ", expires: " . $exp_month . "/" . $exp_year;
               ?>
-              <p><?php echo $payment;?></p>
+              
+              <span>Ending in <?php echo substr($card_number, 15)?></span><br>
+              <span>Name on card: <?php echo $name_on_card?></span><br>
+              <span>Expires: <?php echo $exp_month . "/" . $exp_year?></span>
+              <hr>
+
               <?php    
-            }
-            echo "<p class=\"aInP\"><a href=\"add_payment.php\">Add New Payment</a></p>";
+              }
+              echo "<div class=\"aInP\"><a href=\"add_payment.php\">Add Payment</a></div>";
             echo "</div>";
 
-            $sql = "SELECT address_id, street, city, state, zip_code FROM customer_address WHERE FK_customer_id='$customerId'";
-            $results = mysqli_query($conn, $sql);
-            
-            
-            ?>
-            <div class="address">
-              <h3>Shipping Address
-              </h3>
-            <?php
-            while ($row=mysqli_fetch_assoc($results)) {
-              $address_id = $row['address_id'];
-              $street = $row['street'];
-              $city = $row['city'];
-              $state = $row['state'];
-              $zipCode = $row['zip_code'];
-              $address = $street. ", ". $city. ", ". $state. ", ". $zipCode;
+              $sql = "SELECT address_id, street, city, state, zip_code FROM customer_address WHERE FK_customer_id='$customerId'";
+              $results = mysqli_query($conn, $sql);
               ?>
-              <p><?php echo $address;?></p>
+            <div class="address display-box">
+              <span><b>Addresses</b></span><br>
               <?php
-            }
-            echo "<p class=\"aInP\"><a href=\"add_address.php\">Add New Shipping Address</a></p>";
+              while ($row=mysqli_fetch_assoc($results)) {
+                $address_id = $row['address_id'];
+                $street = $row['street'];
+                $city = $row['city'];
+                $state = $row['state'];
+                $zipCode = $row['zip_code'];
+                $address = $street. ", ". $city. ", ". $state. ", ". $zipCode;
+              ?>
+
+              <span><?php echo $street?></span><br>
+              <span><?php echo $city . ', ' . $state . ' ' . $zipCode?></span><br>
+              <hr>
+
+              <?php
+              }
+              echo "<div class=\"aInP\"><a href=\"add_address.php\">Add Address</a></div>";
             echo "</div>";
-            mysqli_close($conn);
         ?>
       </div>
     </body>

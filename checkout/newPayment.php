@@ -2,8 +2,9 @@
   <head>
     <title>New Payment Method</title>
     <style>
-      <?php include "checkout.css" ?>
+      <?php include "../user_center/user_center.css" ?>
     </style>
+    <script src="../user_center/set_default.js"></script>
   </head>
   <?php include_once '../component/head_nav/head_nav.php'; ?>
   <?php
@@ -30,7 +31,7 @@
       <input type="text" name="expirationYear" class="input" pattern="[0-9]{4}" placeholder="Four digit: e.g., 1234" required><br>
       <label for="securityCode">Security Code:</label>
       <input type="text" name="securityCode" class="input" pattern="[0-9]{3}" placeholder="Three digit: e.g., 123" required><br>
-      <input type="submit" class="button" value="Add">
+      <input type="submit" class="button add-btn" value="Add">
     </form>
     
     <?php
