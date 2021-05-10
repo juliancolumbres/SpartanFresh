@@ -3,11 +3,10 @@ if(!isset($_SESSION))
 {
   session_start();
 }
-
 // Check if the user is already logged in, if yes then redirect him to welcome page
-if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] == true){
-    header("location: ../front_page/front_page.php");
-    echo "alert('already login')";
+if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] === true){
+    header("location: all_category_view.php");
+    //echo "already login";
     exit;
 }
 
@@ -17,6 +16,7 @@ $link = mysqli_connect("sql3.freesqldatabase.com", "sql3402886", "gn4yJmWUfg", "
 // Define variables and initialize with empty values
 $email = $password = "";
 $email_err = $password_err = $login_err = "";
+$retailer = "";
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -41,7 +41,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($email_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT user_id, email, password_encrypted FROM user WHERE email = ?";
+        $sql = "SELECT user_id, account_type, email, password_encrypted FROM user WHERE email = ?";
 
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -59,19 +59,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 if(mysqli_stmt_num_rows($stmt) == 1){
 
                     // Bind result variables
-                    mysqli_stmt_bind_result($stmt, $user_id, $email, $hashed_password);
+                    mysqli_stmt_bind_result($stmt, $user_id, $account_type, $email, $hashed_password);
                     if(mysqli_stmt_fetch($stmt)){
                         if(password_verify($password, $hashed_password)){
                             // Password is correct, so start a new session
                             //session_start();
 
-
-                            $_SESSION["logged_in"] = true;
-                            $_SESSION["user_id"] = $user_id;
+                            if($account_type === "admin")
+                            {
+                              header("location: ../inventory_management/productsInventory_view.php");
+                            } else{
+                              $_SESSION["logged_in"] = true;
+                              $_SESSION["user_id"] = $user_id;
+                              header("location: ../index.php");
+                            }
                             //$_SESSION["email"] = $email;
                             //echo "login successful";
                             //header("all_category_view.php");
-                            header("location: ../front_page/front_page.php");
                         } else{
                             // Password is not valid, display a generic error message
                             $login_err = "Invalid email or password.";
@@ -131,7 +135,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Login">
             </div>
-            <p>Don't have an account? <a href="../registration/Registration.html">Sign up now</a>.</p>
+            <p>Don't have an account? <a href="../registration/Registration.php">Sign up now</a>.</p>
         </form>
     </div>
 </body>

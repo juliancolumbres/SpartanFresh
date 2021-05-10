@@ -64,5 +64,5 @@ if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] == true){
 <div class="login-prompt-container">
     <button class="close-login-prompt-btn" onclick="hideLogInPrompt()">&times;</button>
     <button class="login-prompt-btn login-btn" onclick="window.location.href= location.protocol + '\/\/' + location.host + '/log_in/loginpage.php';">Log In</button>
-    <button class="login-prompt-btn register-btn" onclick="window.location.href= location.protocol + '\/\/' + location.host + '/registration/Registration.html';">Register</button>
+    <button class="login-prompt-btn register-btn" onclick="window.location.href= location.protocol + '\/\/' + location.host + '/registration/Registration.php';">Register</button>
 </div>
