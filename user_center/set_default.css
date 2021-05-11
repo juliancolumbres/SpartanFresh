@@ -2,57 +2,50 @@ html {
   background-color: #F3F1EF;
 }
 
-h1 {
+h3 {
   text-align: center;
-}
-
-.flex-container {
-  display: flex;
-  padding-top: 50; 
-  justify-content:space-evenly;
 }
 
 .setDefault {
   text-align: center;
-  margin: 50 auto;
-  max-width: 800px;
-  /*border: 2px solid black;*/
-  border-radius: 15px;
+  margin: 20px auto 0px;
+  padding: 15px 0px;
+  width: 40vw;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
 }
 .setDefault_form {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 50 auto;
+  width: 50%;
+  margin: 30px 0px;
+  display: flex;
+  flex-direction: column;
 }
 
-input[type='radio'], label {
-  margin-top: 10px;  
-  margin-bottom: 10px;
-  margin-left: 5px;
-  height: 30px; 
-  vertical-align: middle;
-  border: none;
-  border-radius: 5px;
-  font-size: larger;
+.form-options {
+  width: 50%;
+  margin: 0px auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  height: fit-content;
+  padding: 5px 0px;
+}
+
+.form-options > label {
+  text-align: left;
 }
 
 .button {
-  position: relative;
-  margin-top: 10px;
-  margin-left: 20px;
-  width: 150px;
-  height: 30px;
-  font-size: 80%;
-  font-weight: bold;
-  background-color: rgb(238, 238, 0);
-  border-radius: 10px;
+  margin: 15px auto 0px;
+  padding: 10px 20px;
+  background-color: #F3F1EF;
+  border-radius: 5px;
   border: 1px solid black;
-  color: black;
   cursor: pointer;
-}
-
-.button:hover{
-  background-color: rgb(255, 217, 50);
-  color: black;
 }

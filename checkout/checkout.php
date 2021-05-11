@@ -47,8 +47,8 @@
   }
   ?>
   <body>
+    <h1>Checkout</h1><br>
     <div class="main-container">
-      <h1>Checkout</h1><br>
 
       <?php
       $total = 0;
@@ -96,18 +96,18 @@
           //Make the array key = product_id, value = quantity
 
           $totalBeforeTax += $price * $quantity;
-          $totalDiscount += $price * ($discount / 100) * $quantity;
+          $totalDiscount += ($price * ($discount / 100) * $quantity);
           $totalWeight += $shippingWeight * $quantity;
         }
       }
       //If there is item that does not have enough stock, print it out and stop execute rest of the code so user cannot place the order.
       if (!empty($notEnoughStockItems)){
 
-        echo "<h3>Sorry, for ";
+        echo "<span>Sorry, for ";
         foreach ($notEnoughStockItems as $value) {
-          echo $value . ", ";
+          echo '<b>' . $value . "</b>, ";
         }
-        echo " we do not have enough stock for your order. Please <a href=\"../shopping_cart/src/cart.php\">Go Back To Shopping Cart</a>.</h3>";
+        echo " we do not have enough stock for your order. Please <a href=\"../shopping_cart/src/cart.php\">Go Back To Shopping Cart</a>.</span>";
 
         exit("");
       }
@@ -124,43 +124,44 @@
       ?>
 
       <div class="flex-container">
-          <!--Items in cart-->
-          <div class="cart">
-            <table width="600px">
-              <tr>
-                <th colspan="3">Review Order</th>
-              </tr>
-              <tr class="cart-table-title">
-                <th>Item</th>
-                <th>Price</th>
-                <th>Quantity</th>
-              </tr>
-              <tr>
-                <?php
-                //Only three columns: item, price, quantity.
-                for ($row = 0; $row < count($itemsInCart); $row ++) {
-                  for ($col = 0; $col < 3; $col ++) {
-                    //The second column is price, so add $ symbol
-                    if ($col == 1)
-                    {
-                ?>
-                      <td>$<?php echo $itemsInCart[$row][$col];?></td>
-                <?php
-                    }
-                    else {
-                ?>
-                      <td><?php echo $itemsInCart[$row][$col];?></td>
-                <?php
-                    }
-                  }
-                ?>
-              </tr>
+        <!--Items in cart-->
+        <div class="cart">
+          <table width="500px">
+            <tr>
+              <th colspan="3">Review Order</th>
+            </tr>
+            <tr class="cart-table-title">
+              <th>Item</th>
+              <th>Price</th>
+              <th>Quantity</th>
+            </tr>
+            <tr>
               <?php
+              //Only three columns: item, price, quantity.
+              for ($row = 0; $row < count($itemsInCart); $row ++) {
+                for ($col = 0; $col < 3; $col ++) {
+                  //The second column is price, so add $ symbol
+                  if ($col == 1)
+                  {
+              ?>
+                    <td>$<?php echo $itemsInCart[$row][$col];?></td>
+              <?php
+                  }
+                  else {
+              ?>
+                    <td><?php echo $itemsInCart[$row][$col];?></td>
+              <?php
+                  }
                 }
               ?>
-            </table>
-          </div>
-          <!--Order summary-->
+            </tr>
+            <?php
+              }
+            ?>
+          </table>
+        </div>
+        <!--Order summary-->
+        <div class="summary-container">
           <div class="order_summary">
             <table width="350px">
               <tr>
@@ -196,193 +197,192 @@
               </tr>
             </table>
           </div>
-      </div>
-      <?php
-      //Get default payment method and shipping address
-      $sql = "SELECT FK_payment_id, FK_address_id FROM user WHERE user_id='$customerId'";
-      $results = mysqli_query($conn, $sql);
-      if ($row=mysqli_fetch_assoc($results)) {
-        //Get id first
-        $defaultPayment_id = $row['FK_payment_id'];
-        $defaultAddress_id = $row['FK_address_id'];
+          <?php
+          //Get default payment method and shipping address
+          $sql = "SELECT FK_payment_id, FK_address_id FROM user WHERE user_id='$customerId'";
+          $results = mysqli_query($conn, $sql);
+          if ($row=mysqli_fetch_assoc($results)) {
+            //Get id first
+            $defaultPayment_id = $row['FK_payment_id'];
+            $defaultAddress_id = $row['FK_address_id'];
 
-        $sql = "SELECT name_on_card, card_number, exp_month, exp_year FROM customer_payment WHERE payment_id='$defaultPayment_id'";
+            $sql = "SELECT name_on_card, card_number, exp_month, exp_year FROM customer_payment WHERE payment_id='$defaultPayment_id'";
 
-        $results = mysqli_query($conn, $sql);
-        if ($row=mysqli_fetch_assoc($results)){
-          $name_on_card = $row['name_on_card'];
-          $card_number = $row['card_number'];
-          $exp_month = $row['exp_month'];
-          $exp_year = $row['exp_year'];
-          //Create the default payment option
-          $defaultPaymentOption = "Ending in " . substr($card_number, 15) . ", Name On Card: " . $name_on_card . ", expires: " . $exp_month . "/" . $exp_year;
-        }
-
-        $sql = "SELECT street, city, state, zip_code FROM customer_address WHERE address_id='$defaultAddress_id'";
-        $results = mysqli_query($conn, $sql);
-        if ($row=mysqli_fetch_assoc($results)){
-          $street = $row['street'];
-          $city = $row['city'];
-          $state = $row['state'];
-          $zipCode = $row['zip_code'];
-          //create the default address option
-          $defaultAddressOption = $street. ", ". $city. ", ". $state. ", ". $zipCode;
-        }
-      }
-      else {
-        echo mysqli_error($conn);
-      }
-      ?>
-
-      <div class="info-select">
-        <form action="" method="post">
-          <span class="selection-title">Payment method:</span>
-          <!--Select payment-->
-          <select name="payment_option" class="selection">
-            <!--First display the default option-->
-            <?php 
-            if (!empty($defaultPaymentOption)){
-            ?>
-            <option value="<?php echo $defaultPaymentOption;?>|<?php echo $defaultPayment_id;?>">
-              <?php echo $defaultPaymentOption;?>
-            </option>
-            <?php 
-            }
-            $sql = "SELECT payment_id, name_on_card, card_number, exp_month, exp_year FROM customer_payment WHERE FK_customer_id='$customerId'";
             $results = mysqli_query($conn, $sql);
-            while ($row=mysqli_fetch_assoc($results))
-            {
-              $payment_id = $row['payment_id'];
-              //Create other options but not include the default
-              if ($payment_id !== $defaultPayment_id){
-                $name_on_card = $row['name_on_card'];
-                $card_number = $row['card_number'];
-                $exp_month = $row['exp_month'];
-                $exp_year = $row['exp_year'];
-                //Create payment option
-                $paymentOption = "Ending in " . substr($card_number, 15) . ", Name On Card: " . $name_on_card . ", expires: " . $exp_month . "/" . $exp_year;
-                echo $paymentOption;
-            ?>
-            <option value="<?php echo $paymentOption;?>|<?php echo $payment_id;?>">
-              <?php echo $paymentOption;?>
-            </option>
-            <!--Make two values. Payment id for later update default value-->
+            if ($row=mysqli_fetch_assoc($results)){
+              $name_on_card = $row['name_on_card'];
+              $card_number = $row['card_number'];
+              $exp_month = $row['exp_month'];
+              $exp_year = $row['exp_year'];
+              //Create the default payment option
+              $defaultPaymentOption = "Ending in " . substr($card_number, 15) . ", Name On Card: " . $name_on_card . ", expires: " . $exp_month . "/" . $exp_year;
+            }
+
+            $sql = "SELECT street, city, state, zip_code FROM customer_address WHERE address_id='$defaultAddress_id'";
+            $results = mysqli_query($conn, $sql);
+            if ($row=mysqli_fetch_assoc($results)){
+              $street = $row['street'];
+              $city = $row['city'];
+              $state = $row['state'];
+              $zipCode = $row['zip_code'];
+              //create the default address option
+              $defaultAddressOption = $street. ", ". $city. ", ". $state. ", ". $zipCode;
+            }
+          }
+          else {
+            echo mysqli_error($conn);
+          }
+          ?>
+          <div class="info-select">
+            <form action="" method="post">
+              <span class="selection-title">Payment method:</span>
+              <!--Select payment-->
+              <select name="payment_option" class="selection">
+                <!--First display the default option-->
+                <?php 
+                if (!empty($defaultPaymentOption)){
+                ?>
+                <option value="<?php echo $defaultPaymentOption;?>|<?php echo $defaultPayment_id;?>">
+                  <?php echo $defaultPaymentOption;?>
+                </option>
+                <?php 
+                }
+                $sql = "SELECT payment_id, name_on_card, card_number, exp_month, exp_year FROM customer_payment WHERE FK_customer_id='$customerId'";
+                $results = mysqli_query($conn, $sql);
+                while ($row=mysqli_fetch_assoc($results))
+                {
+                  $payment_id = $row['payment_id'];
+                  //Create other options but not include the default
+                  if ($payment_id !== $defaultPayment_id){
+                    $name_on_card = $row['name_on_card'];
+                    $card_number = $row['card_number'];
+                    $exp_month = $row['exp_month'];
+                    $exp_year = $row['exp_year'];
+                    //Create payment option
+                    $paymentOption = "Ending in " . substr($card_number, 15) . ", Name On Card: " . $name_on_card . ", expires: " . $exp_month . "/" . $exp_year;
+                    echo $paymentOption;
+                ?>
+                <option value="<?php echo $paymentOption;?>|<?php echo $payment_id;?>">
+                  <?php echo $paymentOption;?>
+                </option>
+                <!--Make two values. Payment id for later update default value-->
+                <?php
+                  }
+                }
+                ?>
+              </select>
+              <a href="newPayment.php" class="add-link">Add New Payment Method</a>
+              <br>
+              <span class="selection-title">Shipping Address:</span>
+              <!--Select address-->
+              <select name="address_option" class="selection">
+                <!--First display the default option-->
+                <?php
+                  if (!empty($defaultAddressOption)){
+                    ?>
+                    <option value="<?php echo $defaultAddressOption;?>|<?php echo $defaultAddress_id;?>"><?php echo $defaultAddressOption;?></option>
+                    <?php
+                  } 
+              
+                  $sql = "SELECT address_id, street, city, state, zip_code FROM customer_address WHERE FK_customer_id='$customerId'";
+                  $results = mysqli_query($conn, $sql);
+
+                  while ($row=mysqli_fetch_assoc($results))
+                  {
+                    $address_id = $row['address_id'];
+                    if ($address_id !== $defaultAddress_id){
+                      $street = $row['street'];
+                      $city = $row['city'];
+                      $state = $row['state'];
+                      $zipCode = $row['zip_code'];
+                      //Create other options but not include the default
+                      $addressOption = $street. ", ". $city. ", ". $state. ", ". $zipCode;
+                      ?>
+                      <option value="<?php echo $addressOption;?>|<?php echo $address_id;?>"><?php echo $addressOption;?></option>
+                      <!--Make two values. Address id for later update default value-->
+                      <?php
+                    }
+                  }
+                    ?>
+              </select>
+              <a href="newAddress.php" class="add-link">Add New Shipping Address</a>
+              <br>
+
+              <!--Select delivery date-->
+              <span class="selection-title">Delivery Date:</span>
+              <!--Notify delivery police-->
+              <div class="tooltip">
+                <span class="tooltiptext">*Same day delivery only apply for order before 4:00 pm </span>
+              </div>
+              <select name="date_option" class="selection">
+                <option><?php echo $firstDay;?></option>
+                <option><?php echo $secondDay;?></option>
+                <option><?php echo $thirdDay;?></option>
+              </select>
+              <br>
+              <input type="submit" value="Proceed" class="minor-select select-button">
+            </form>
+          </div>
+          <div class="confirm-container">
+            <span class="container-title"><h3>Order</h3></span>
             <?php
+            //Display what customer selected
+            echo '<h class="h">Selected Payment Method: </h>';
+            if (isset($_POST['payment_option'])) {
+              if ($_POST['payment_option']) {
+                $selected_payment= $_POST['payment_option'];
+                //Separate name and id. Display payment name only
+                $payment_explode = explode('|', $selected_payment);
+                $selectedPayment = $payment_explode[0];
+                $selectedPaymentId = $payment_explode[1];
+                echo $selectedPayment;
               }
             }
-            ?>
-          </select>
-          <a href="newPayment.php" class="add-link">Add New Payment Method</a>
-          <br>
-          <span class="selection-title">Shipping Address:</span>
-          <!--Select address-->
-          <select name="address_option" class="selection">
-            <!--First display the default option-->
-            <?php
-              if (!empty($defaultAddressOption)){
-                ?>
-                <option value="<?php echo $defaultAddressOption;?>|<?php echo $defaultAddress_id;?>"><?php echo $defaultAddressOption;?></option>
-                <?php
-              } 
-          
-              $sql = "SELECT address_id, street, city, state, zip_code FROM customer_address WHERE FK_customer_id='$customerId'";
-              $results = mysqli_query($conn, $sql);
+            echo "<br><br>";
 
-              while ($row=mysqli_fetch_assoc($results))
-              {
-                $address_id = $row['address_id'];
-                if ($address_id !== $defaultAddress_id){
-                  $street = $row['street'];
-                  $city = $row['city'];
-                  $state = $row['state'];
-                  $zipCode = $row['zip_code'];
-                  //Create other options but not include the default
-                  $addressOption = $street. ", ". $city. ", ". $state. ", ". $zipCode;
-                  ?>
-                  <option value="<?php echo $addressOption;?>|<?php echo $address_id;?>"><?php echo $addressOption;?></option>
-                  <!--Make two values. Address id for later update default value-->
-                  <?php
-                }
+            echo '<h class="h">Selected Shipping Address: </h>';
+            if (isset($_POST['address_option'])) {
+              if ($_POST['address_option']) {
+                $selected_address = $_POST['address_option'];
+                //Separate name and id. Display address name only
+                $address_explode = explode('|', $selected_address);
+                $selectedAddress = $address_explode[0];
+                $selectedAddressId = $address_explode[1];
+                echo $selectedAddress;
               }
-                ?>
-          </select>
-          <a href="newAddress.php" class="add-link">Add New Shipping Address</a>
-          <br>
+            }
+            echo "<br><br>";
 
-          <!--Select delivery date-->
-          <span class="selection-title">Delivery Date:</span>
-          <!--Notify delivery police-->
-          <div class="tooltip">
-            <span class="tooltiptext">*Same day delivery only apply for order before 4:00 pm </span>
+            echo '<h class="h">Selected Delivery Date: </h>';
+            if (isset($_POST['date_option'])) {
+              if ($_POST['date_option']) {
+                $selectedDate = $_POST['date_option'];
+                //Display date
+                echo $selectedDate;
+              }
+            }
+            echo "<br><br>";
+
+            //If everything is selected, display the place order button. Else notify customer to select
+            if (empty($selectedPayment) || empty($selectedAddress) || empty($selectedDate))
+            {
+              echo "*At Least One Delivery Information Was Not Selected.";
+            }
+            else {
+              ?>
+              <!--Place order with selected options-->
+              <form action="place_order.php" method="post">
+                <input type="hidden" name="selectedPayment" value="<?php echo $selectedPayment;?>|<?php echo $selectedPaymentId;?>">
+                <input type="hidden" name="selectedAddress" value="<?php echo $selectedAddress;?>|<?php echo $selectedAddressId;?>">
+                <input type="hidden" name="selectedDate" value="<?php echo $selectedDate;?>">
+                <input type="submit" class="select-button" value="Place Order" class="button">
+              </form>
+              <?php
+            }
+            ?>
           </div>
-          <select name="date_option" class="selection">
-            <option><?php echo $firstDay;?></option>
-            <option><?php echo $secondDay;?></option>
-            <option><?php echo $thirdDay;?></option>
-          </select>
-          <br>
-          <input type="submit" value="Select" class="select-button">
-        </form>
+        </div>    
       </div>
-
-    <div class="confirm-container">
-      <span class="container-title"><h3>Order</h3></span>
-      <?php
-      //Display what customer selected
-      echo '<h class="h">Selected Payment Method: </h>';
-      if (isset($_POST['payment_option'])) {
-        if ($_POST['payment_option']) {
-          $selected_payment= $_POST['payment_option'];
-          //Separate name and id. Display payment name only
-          $payment_explode = explode('|', $selected_payment);
-          $selectedPayment = $payment_explode[0];
-          $selectedPaymentId = $payment_explode[1];
-          echo $selectedPayment;
-        }
-      }
-      echo "<br><br>";
-
-      echo '<h class="h">Selected Shipping Address: </h>';
-      if (isset($_POST['address_option'])) {
-        if ($_POST['address_option']) {
-          $selected_address = $_POST['address_option'];
-          //Separate name and id. Display address name only
-          $address_explode = explode('|', $selected_address);
-          $selectedAddress = $address_explode[0];
-          $selectedAddressId = $address_explode[1];
-          echo $selectedAddress;
-        }
-      }
-      echo "<br><br>";
-
-      echo '<h class="h">Selected Delivery Date: </h>';
-      if (isset($_POST['date_option'])) {
-        if ($_POST['date_option']) {
-          $selectedDate = $_POST['date_option'];
-          //Display date
-          echo $selectedDate;
-        }
-      }
-      echo "<br><br>";
-
-      //If everything is selected, display the place order button. Else notify customer to select
-      if (empty($selectedPayment) || empty($selectedAddress) || empty($selectedDate))
-      {
-        echo "*At Least One Delivery Information Was Not Selected.";
-      }
-      else {
-        ?>
-        <!--Place order with selected options-->
-        <form action="place_order.php" method="post">
-          <input type="hidden" name="selectedPayment" value="<?php echo $selectedPayment;?>|<?php echo $selectedPaymentId;?>">
-          <input type="hidden" name="selectedAddress" value="<?php echo $selectedAddress;?>|<?php echo $selectedAddressId;?>">
-          <input type="hidden" name="selectedDate" value="<?php echo $selectedDate;?>">
-          <input type="submit" class="select-button" value="Place Order" class="button">
-        </form>
-        <?php
-      }
-      ?>
-    </div>
   </div>
 </body>
 </html>

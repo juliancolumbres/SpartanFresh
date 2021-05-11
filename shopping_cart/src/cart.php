@@ -60,7 +60,7 @@ foreach ($items_in_cart as $item) {
     // echo '<br>';
     // echo 'Q: ' . $item['quantity'] . ' FK: '. $item['FK_product_id'] . ' P: ' . $item_info['price'] . '<br>';
     
-    $subtotal += $item['quantity'] * $item_info['price'];
+    $subtotal += $item['quantity'] * round($item_info['price'] * (1 - ($item_info['discount'] / 100)), 2);
     $item_in_cart_count += $item['quantity'];
 }
 // echo 'Subtotal: ' . $subtotal;
@@ -113,7 +113,7 @@ else {
                         }
                         $image = $item_info['image'];
                         $product_name = $item_info['product_name'];
-                        $price = $item_info['price'];
+                        $price = round($item_info['price'] * (1 - ($item_info['discount'] / 100)), 2);
                     ?>
                     <div class="item-row-wrapper" id="item-row-<?=$id?>">
                         <div class="product-img-wrapper" id="img-<?=$id?>">

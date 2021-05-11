@@ -26,10 +26,9 @@
     }
   ?>
   <body>
-    <br><br>
-    <h1>Set Default Payment</h1>
+    <h3>Set Default Payment</h3>
     <div class="setDefault">
-  <form action="" method="post" name="set_default_payment" class="setDefault_from">
+  <form action="" method="post" name="set_default_payment" class="setDefault_form">
   <?php 
     $sql = "SELECT payment_id, name_on_card, card_number, exp_month, exp_year FROM customer_payment WHERE FK_customer_id='$customerId'";
     $results = mysqli_query($conn, $sql);
@@ -42,17 +41,17 @@
       $exp_month = $row['exp_month'];
       $exp_year = $row['exp_year'];
       //Create payment option
-      $payment= "Ending in " . substr($card_number, 15) . ", Name On Card: " . $name_on_card . ", expires: " . $exp_month . "/" . $exp_year;
+      $payment= "Ending in " . substr($card_number, 15) . "<br>Name On Card: " . $name_on_card . "<br>Expires: " . $exp_month . "/" . $exp_year;
       ?>
-      <input type="radio" name="setPayment" value="<?php echo $payment_id;?>" class="input">
-      <label for="setPayment"><?php echo $payment;?></label>
-      <br>
+      <div class="form-options">
+        <input type="radio" name="setPayment" value="<?php echo $payment_id;?>" class="input">
+        <label for="setPayment"><?php echo $payment;?></label>
+      </div>
       <?php
     }
   ?>
   <input type="submit" value="Set As Default" class="button">
   </form>
-  <br>
   <a href="user_center.php">Go Back To User Center</a>
   </div>
   <?php 

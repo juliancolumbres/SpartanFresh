@@ -2,7 +2,7 @@
   <head>
     <title>Place Order</title>
     <style>
-      <?php include "checkout.css"; ?>
+      <?php include "place_order.css"; ?>
     </style>
     <script>
       <?php include "checkout.js"; ?>

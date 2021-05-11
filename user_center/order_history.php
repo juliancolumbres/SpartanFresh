@@ -10,29 +10,27 @@
   </head>
   <?php include_once '../component/head_nav/head_nav.php'; ?>
   <?php 
-    if(!isset($_SESSION)) {
-      //start session
-      session_start();
-    }
-    if(!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false) {
-      echo "<script>notLoginIn()</script>";
-    }
-    //Get customer id
-    $customerId = $_SESSION['user_id'];
-    //create connection
-    $conn = mysqli_connect("sql3.freesqldatabase.com:3306", "sql3402886", "gn4yJmWUfg", "sql3402886");
-    //check connection
-    if (!$conn) {
-      die("Connection failed: " . mysqli_connect_error());
-    }
+  if(!isset($_SESSION)) {
+    //start session
+    session_start();
+  }
+  if(!isset($_SESSION["logged_in"]) || $_SESSION["logged_in"] == false) {
+    echo "<script>notLoginIn()</script>";
+  }
+  //Get customer id
+  $customerId = $_SESSION['user_id'];
+  //create connection
+  $conn = mysqli_connect("sql3.freesqldatabase.com:3306", "sql3402886", "gn4yJmWUfg", "sql3402886");
+  //check connection
+  if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+  }
   ?>
   <body>
-    <br><br>
-    <h1> Order History</h1>
+    <h1>Order History</h1>
     <div class="flex-container">
-    <?php
-      
-      $sql = "SELECT order_date, order_total, order_id FROM customer_order WHERE FK_customer_id='$customerId'";
+      <?php
+      $sql = "SELECT * FROM customer_order WHERE FK_customer_id='$customerId'";
       $results = mysqli_query($conn, $sql);
       if (mysqli_num_rows($results) === 0) {
         echo "<h3>You have no order before. Start Your First Order!</h3><br>";
@@ -41,6 +39,10 @@
       }
       
       while ($row=mysqli_fetch_assoc($results)) {
+        $status_id = $row['FK_status_id'];
+        $sql1 = "SELECT status_description FROM shipping_status WHERE status_id='$status_id'";
+        $status_results = mysqli_query($conn, $sql1);
+        $status = mysqli_fetch_assoc($status_results)['status_description'];
         $order_date = $row['order_date'];
         $order_total = $row['order_total'];
         $order_id = $row['order_id'];
@@ -58,43 +60,40 @@
             $product = array($product_name, $quantity);
           }
           array_push($items_in_order, $product);
-        }
-        ?>
-
-        <div class="order_history">
-          <table>
-            <tr class="date">
-              <td>Order Date: </td>
-              <td><?php echo $order_date;?></td>
-            </tr>
-            <tr class="total">
-              <td></td>
-              <td>Total: $<?php echo $order_total;?></td>
-            </tr>
-            <tr>
-              <th>Item</th>
-              <th>quantity</th>
-            </tr>
-            <tr>
-            <?php 
-              for ($i = 0; $i < count($items_in_order); $i ++) {
-                for ($j = 0; $j < 2; $j ++) {
-                  ?>
-                  <td><?php echo $items_in_order[$i][$j];?></td>
-                  <?php
-                }
-                ?>
-                </tr>
-                
-                <?php 
-              }
-              ?>
-          </table>
-        </div>
-              <?php
-      } 
+      }
       ?>
-    </div>
+
+      <div class="order_history">
+        <table>
+          <tr class="date">
+            <td colspan="2">Order placed: <?php echo $order_date;?></td>
+          </tr>
+          <tr class="status">
+            <td colspan="2"><b>Status: <?php echo $status;?></b></td>
+          </tr>
+          <tr class="total">
+            <td colspan="2">Total: $<?php echo $order_total;?></td>
+          </tr>
+          <tr>
+            <th>Item</th>
+            <th>quantity</th>
+          </tr>
+          <tr>
+            <?php 
+              for ($i = 0; $i < count($items_in_order); $i++) {
+            ?>
+            <td class="product-name-cell"><?php echo $items_in_order[$i][0];?></td>
+            <td><?php echo $items_in_order[$i][1];?></td>
+          </tr>  
+            <?php 
+            }
+            ?>
+        </table>
+      </div>
+      <?php
+              } 
+      ?>
+      </div>
     <div class="a">
     <a class="a" href="user_center.php">Go Back To User Center</a>
       </div>
