@@ -3,8 +3,9 @@ var update_cart_item_count_url = root + '/component/function/update_cart_item_co
 var update_username_url = root + '/component/function/update_username.php';
 var log_out_url = root + '/component/function/log_out.php';
 
+
+hideLogInPrompt();
 $(document).ready(function () {
-    hideLogInPrompt();
     $('.log-out-container').click(function(){
         logOut();
     });
