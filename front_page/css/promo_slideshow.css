@@ -14,7 +14,7 @@
 }
 
 .promo-slide > img {
-    max-width: 100%;
+    width: inherit;
     height: auto;
 }
 
