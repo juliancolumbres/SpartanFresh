@@ -67,7 +67,9 @@ function add_to_cart($product_id, $user_id, $quantity_to_add) {
             $stmt->execute();
         }
         echo '<script>alert("Successfully updated cart.")</script>';
-        echo '<script>window.history.back()</script>';
+        echo '<script>
+            location.href = window.location.href;
+            </script>';
     }
 }
 ?>
