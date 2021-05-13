@@ -34,7 +34,7 @@
             else{
                 echo "<div style=\"text-align:center;\">";
                 echo"Uh-oh, something went wrong! ";
-                echo '<a href="Registration.php">Try Again</a>';
+                echo '<a href="registration.php">Try Again</a>';
                 echo "</div>";
                 echo mysqli_error($conn);
                 mysqli_close($conn); 

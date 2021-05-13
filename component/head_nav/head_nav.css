@@ -14,6 +14,7 @@
     -webkit-backdrop-filter: saturate(180%) blur(10px);
     background-color: rgba(248, 245, 242, 0.1);
     border-radius: 5px;
+    border: 1px solid rgb(189, 189, 189);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,8 +40,8 @@ header {
     z-index: 100;
     position: fixed;
     top: 100px;
-    left: 95%;
-    width: 80px;
+    right: 5vw;
+    width: fit-content;
     width: -moz-fit-content;
     height: fit-content;
     height: -moz-fit-content;
@@ -120,11 +121,12 @@ header {
 }
 
 .menu-bar-search-wrapper > form > input {
+    height: inherit;
 }
 
 .menu-bar-search-wrapper > form > button {
-    width: 1.1rem;
-    height: 1.1rem;
+    height: 20px;
+    width: 20px;
     margin-left: 2px;
     border-style: none;
     background-color: transparent;
@@ -132,7 +134,7 @@ header {
 }
 
 .menu-bar-search-wrapper > form > button > img {
-    height: inherit;
+    width: inherit;
 }
 
 .menu-bar-info-container {
@@ -155,6 +157,8 @@ header {
     border: 1.2px solid transparent;
     transition-duration: .2s;
     cursor: pointer;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .user-info-wrapper:hover {
@@ -186,6 +190,8 @@ header {
     border: 1.2px solid transparent;
     transition-duration: .2s;
     cursor: pointer;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .cart-info-wrapper:hover {

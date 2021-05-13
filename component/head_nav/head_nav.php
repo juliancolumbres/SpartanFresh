@@ -59,8 +59,6 @@ if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] == true){
                         // Hide loading
                         document.getElementById('username-loading').style.display = 'none';
                         document.getElementById('cart-loading').style.display = 'none';
-                        // Show log out button
-                        document.getElementById('log-out-btn').style.display = "flex";
                         // Change user and cart click function
                         document.getElementById('username-click').onclick 
                             = function() { window.location.href= location.protocol + '//' + location.host + '/user_center/user_center.php' };
@@ -68,6 +66,8 @@ if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] == true){
                             = function() { window.location.href= location.protocol + '//' + location.host + '/shopping_cart/src/cart.php' };
                         // Display username
                         document.getElementById('username-field').innerHTML = response;
+                        // Show log out button
+                        document.getElementById('log-out-btn').style.display = "flex";
                     }
                 }
             });
@@ -99,7 +99,7 @@ if(isset($_SESSION["logged_in"]) && $_SESSION["logged_in"] == true){
 <div class="login-prompt-container">
     <button class="close-login-prompt-btn" onclick="hideLogInPrompt()">&times;</button>
     <button class="login-prompt-btn login-btn" onclick="window.location.href= location.protocol + '\/\/' + location.host + '/log_in/loginpage.php';">Log In</button>
-    <button class="login-prompt-btn register-btn" onclick="window.location.href= location.protocol + '\/\/' + location.host + '/registration/Registration.php';">Register</button>
+    <button class="login-prompt-btn register-btn" onclick="window.location.href= location.protocol + '\/\/' + location.host + '/registration/registration.php';">Register</button>
 </div>
 <script>
     document.getElementsByClassName('background-blur-container')[0].style.display = 'none';

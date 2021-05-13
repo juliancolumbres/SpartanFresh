@@ -1,5 +1,6 @@
 .product-card-container {
     position: relative;
+    min-width: 200px;
     max-width: 250px;
     padding: 0 13px;
     margin-right: 45px;
